@@ -22,3 +22,6 @@ dev = ["pytest", "httpx"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+
+[tool.setuptools]
+packages = ["fd_shilun_api"]
