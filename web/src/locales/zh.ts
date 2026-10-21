@@ -1,9 +1,49 @@
 export default {
   nav: { login: "登录", logout: "退出", home: "首页", workbench: "工作台", admin: "管理后台", token: "访问令牌" },
   landing: {
-    title: "实论",
-    subtitle: "求真 · 论文检索与严肃写作 —— 从查证到成稿的一条通路",
-    loops: { search: "检索 · 论文查证", gov: "公文 · 骨架起草", writing: "写作 · 引证成稿" },
+    hero: {
+      statement1: "严肃的写作，",
+      statement2: "从严肃的引用开始。",
+      lede: "实论是论文检索与严肃文本写作的工坊：检索真实文献、归纳真实公文，生成的一切文本引用可解——每一条引用都能点开验证，解不开的宁可删去。",
+      cta: "进入工作台",
+      ctaSecondary: "三件事",
+    },
+    visual: {
+      caption: "引用清单 · 实际输出格式",
+      cite1: "Huang L, Yu W, Ma W, et al. A survey on hallucination in large language models[J]. ACM Transactions on Information Systems, 2024, 43(2): 1-55.",
+      cite2: "Gao Y, Xiong Y, Gao X, et al. Retrieval-augmented generation for large language models[EB/OL]. (2023)[2026-10-21].",
+      cite3: "Vaswani A, Shazeer N, Parmar N, et al. Attention is all you need[J]. Advances in Neural Information Processing Systems, 2017.",
+      note: "GB/T 7714 与 APA 双格式，直接来自真实检索命中。",
+    },
+    loops: {
+      search: {
+        name: "检索",
+        title: "真实的文献，而非编造的文献",
+        body: "论文检索走 OpenAlex 学术图谱——两亿四千万篇作品的结构化元数据：DOI 精确取、关键词检索、被引数与期刊信息如实透出。",
+        detail: "空结果必带原因（配额、上游、无收录），不静默、不编造。",
+      },
+      gov: {
+        name: "公文",
+        title: "模板从真实语料里长出来",
+        body: "公文写作的文种模板与规范约束，全部从数百篇中央部委真实公文归纳而来——每个模板都能跳回具体的源样例，样例不足的文种如实标注「仅结构参考」。",
+        detail: "不杜撰格式：连「特此通知」这类结语的频率，都按语料实证给出。",
+      },
+      writing: {
+        name: "写作",
+        title: "提纲有依据，引用可解",
+        body: "收藏检索命中为引用条目，按 GB/T 7714 或 APA 输出；提纲的每一节标注依据，没有依据的章节被诚实标出「待补证」。",
+        detail: "生成文本中的引用逐条校验，解不开的引用在渲染前剥除——宁删勿假。",
+      },
+    },
+    truth: {
+      title: "引用可解，是底线不是功能",
+      body: "严肃文本的信任建立在可验证上：实论生成的所有引用必须能解析到一次真实检索命中或一篇真实语料，否则它在出现之前就被删掉。",
+    },
+    cta: {
+      title: "让每一页纸都经得起核对",
+      body: "从一次检索到一篇成稿，引用的链条全程可溯——这是实论对「严肃」二字的全部理解。",
+      family: "寻数·识律家族子线 · 与哲思、剧创同源同根",
+    },
   },
   workbench: {
     title: "工作台",

@@ -1,9 +1,49 @@
 export default {
   nav: { login: "Sign in", logout: "Sign out", home: "Home", workbench: "Workbench", admin: "Admin", token: "Access token" },
   landing: {
-    title: "Shilun",
-    subtitle: "Truth-seeking · literature search and serious writing — from verification to manuscript",
-    loops: { search: "Search · verify literature", gov: "Gov docs · skeleton drafting", writing: "Writing · cited drafting" },
+    hero: {
+      statement1: "Serious writing begins",
+      statement2: "with serious citation.",
+      lede: "Shilun is a workshop for paper retrieval and serious writing: retrieve real literature, derive real document templates, and let every generated sentence carry verifiable citations — each one clickable, and anything unverifiable is deleted.",
+      cta: "Open the workbench",
+      ctaSecondary: "Three things",
+    },
+    visual: {
+      caption: "Citation list · actual output format",
+      cite1: "Huang L, Yu W, Ma W, et al. A survey on hallucination in large language models[J]. ACM Transactions on Information Systems, 2024, 43(2): 1-55.",
+      cite2: "Gao Y, Xiong Y, Gao X, et al. Retrieval-augmented generation for large language models[EB/OL]. (2023)[2026-10-21].",
+      cite3: "Vaswani A, Shazeer N, Parmar N, et al. Attention is all you need[J]. Advances in Neural Information Processing Systems, 2017.",
+      note: "GB/T 7714 and APA, straight from real retrieval hits.",
+    },
+    loops: {
+      search: {
+        name: "Retrieve",
+        title: "Real literature, never invented",
+        body: "Paper retrieval runs on the OpenAlex scholarly graph — a quarter of a billion works of structured metadata: exact DOI lookup, keyword search, citation counts and venues reported honestly.",
+        detail: "Empty results always carry a reason (quota, upstream, not indexed) — never silent, never fabricated.",
+      },
+      gov: {
+        name: "Official docs",
+        title: "Templates grown from real corpus",
+        body: "Document templates and norms are derived from hundreds of real central-government documents — every template links back to concrete source samples, and under-sampled types are honestly flagged as structure-only.",
+        detail: "No invented formats: even the frequency of a closing formula like「特此通知」is reported from corpus evidence.",
+      },
+      writing: {
+        name: "Write",
+        title: "Outlines with evidence, citations that resolve",
+        body: "Save retrieval hits as citation entries, export them as GB/T 7714 or APA; every outline section names its evidence, and sections without any are honestly marked.",
+        detail: "Generated citations are checked one by one — anything that fails to resolve is stripped before rendering. Better deleted than fake.",
+      },
+    },
+    truth: {
+      title: "Resolvable citation is the floor, not a feature",
+      body: "Trust in serious writing rests on verifiability: every citation Shilun generates must resolve to a real retrieval hit or a real corpus entry — otherwise it is deleted before it ever appears.",
+    },
+    cta: {
+      title: "Let every page survive checking",
+      body: "From one retrieval to a finished draft, the citation chain stays traceable — that is Shilun's entire understanding of the word serious.",
+      family: "A sub-line of the Lex family · kin to Zhesi and Juchuang",
+    },
   },
   workbench: {
     title: "Workbench",
