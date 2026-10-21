@@ -1,0 +1,3543 @@
+{
+  "mode": "shadow",
+  "replay_mode": "corpus",
+  "documents": 212,
+  "errors": [],
+  "items_total": 150,
+  "status_counts": {
+    "pass": 50,
+    "block": 0,
+    "pending_review": 100
+  },
+  "ratios": {
+    "pass": 0.3333,
+    "block": 0.0,
+    "pending_review": 0.6667
+  },
+  "level_counts": {
+    "resolvable": 50,
+    "authentic": 50,
+    "support": 50
+  },
+  "rule_counts": {
+    "cite.resolvable": 50,
+    "cite.upstream_unavailable": 50,
+    "cite.fulltext_missing": 50
+  },
+  "pending_by_rule": {
+    "cite.upstream_unavailable": 50,
+    "cite.fulltext_missing": 50
+  },
+  "blocked_by_rule": {},
+  "false_positive_analysis": {
+    "pending_environmental": 50,
+    "pending_structural_coverage": 50,
+    "pending_other": 0,
+    "blocked_unresolvable": 0,
+    "blocked_metadata_mismatch": 0,
+    "blocked_retracted": 0,
+    "blocked_other": 0,
+    "note": "pending 不计入已通过，也不视为稿件缺陷；environmental 是上游失联（重试可消），structural_coverage 是来源未覆盖（需授权通道补）"
+  },
+  "enforce_dry_run": {
+    "documents_total": 212,
+    "documents_would_change": 0,
+    "change_ratio": 0.0,
+    "note": "切 enforce 只影响含 block 的稿件；pending 永不改文本"
+  },
+  "all_matches_legacy": true,
+  "per_document": [
+    {
+      "doc_id": "gov:mee:https://www.mee.gov.cn/ywdt/gsgg/gongshi/gsq/202209/t20220922_994697.shtml",
+      "title": "全国县级城市黑臭水体排查情况公示",
+      "doc_number": "建城〔2022〕29号",
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mee:https://www.mee.gov.cn/ywdt/gsgg/gongshi/gsq/202301/t20230119_1013825.shtml",
+      "title": "生态环境部（国家核安全局）关于民用核安全设备国内持证单位和境外注册登记单位统计信息的公示",
+      "doc_number": null,
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mee:https://www.mee.gov.cn/ywdt/gsgg/gongshi/gsq/202307/t20230710_1035698.shtml",
+      "title": "生态环境部（国家核安全局）关于民用核安全设备国内持证单位和境外注册登记单位统计信息的公示",
+      "doc_number": null,
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mee:https://www.mee.gov.cn/ywdt/gsgg/gongshi/gsq/202401/t20240123_1064448.shtml",
+      "title": "民用核安全设备持证单位信息（截至2023年12月31日，共有221家）",
+      "doc_number": null,
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mee:https://www.mee.gov.cn/ywdt/gsgg/gongshi/gsq/202401/t20240123_1064449.shtml",
+      "title": "民用核安全设备活动境外单位注册登记信息统计表（截至2023年12月31日，共172家）",
+      "doc_number": null,
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mee:https://www.mee.gov.cn/ywdt/gsgg/gongshi/gsq/202511/t20251119_1134238.shtml",
+      "title": "关于公布2025年第四批注册核安全工程师准予注册、延续注册和变更注册人员名单的通知",
+      "doc_number": "人发〔2002〕106号",
+      "citation_count": 1,
+      "counts": {
+        "total": 3,
+        "passed": 1,
+        "blocked": 0,
+        "pending": 2
+      },
+      "blocked_ids": [],
+      "pending_ids": [
+        "c0"
+      ],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mee:https://www.mee.gov.cn/ywdt/gsgg/gongshi/gsq/202609/t20260923_1174318.shtml",
+      "title": "生态环境部关于2026年9月20日建设项目环境影响评价文件受理情况的公示（核与辐射）",
+      "doc_number": null,
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mee:https://www.mee.gov.cn/ywdt/gsgg/gongshi/gsq/202609/t20260923_1174737.shtml",
+      "title": "生态环境部关于2026年9月14日-2026年9月17日建设项目环境影响评价文件受理情况的公示",
+      "doc_number": null,
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mee:https://www.mee.gov.cn/ywdt/gsgg/gongshi/gsq/202609/t20260924_1174782.shtml",
+      "title": "生态环境部关于2026年9月20日—2026年9月24日海洋工程建设项目生态环境影响评价文件受理情况的公示",
+      "doc_number": null,
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mee:https://www.mee.gov.cn/ywdt/gsgg/gongshi/gsq/202609/t20260930_1175512.shtml",
+      "title": "生态环境部关于2026年9月28日—2026年9月30日海洋工程建设项目生态环境影响评价文件受理情况的公示",
+      "doc_number": null,
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mee:https://www.mee.gov.cn/ywdt/gsgg/gongshi/gsq/202610/t20261009_1175930.shtml",
+      "title": "生态环境部关于2026年10月8日建设项目环境影响评价文件受理情况的公示（核与辐射）",
+      "doc_number": null,
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mee:https://www.mee.gov.cn/ywdt/gsgg/gongshi/gsq/202610/t20261009_1175951.shtml",
+      "title": "生态环境部长江上游羊石盘至上白沙水道航道整治工程等2项生态环境影响评价文件拟进行审查公示",
+      "doc_number": "国家发展改革委以发改基础〔2025〕1729号",
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mee:https://www.mee.gov.cn/ywdt/gsgg/gongshi/gsq/202610/t20261010_1177230.shtml",
+      "title": "生态环境部关于2026年10月8日—2026年10月10日海洋工程建设项目生态环境影响评价文件受理情况的公示",
+      "doc_number": null,
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mee:https://www.mee.gov.cn/ywdt/gsgg/gongshi/gsq/202610/t20261012_1182809.shtml",
+      "title": "生态环境部关于2026年9月21日-2026年9月30日建设项目环境影响评价文件受理情况的公示",
+      "doc_number": null,
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mnr:http://gi.mnr.gov.cn/202606/t20260629_2932891.html",
+      "title": "自然资源部国土整治中心（自然资源部土地科技创新中心）2026年度公开招收博士后人员公告",
+      "doc_number": null,
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mnr:http://gi.mnr.gov.cn/202606/t20260630_2933005.html",
+      "title": "自然资源部信息中心2026年度公开招聘工作人员（第三批）资格审查结果",
+      "doc_number": null,
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mnr:http://gi.mnr.gov.cn/202606/t20260630_2933016.html",
+      "title": "自然资源部 公安部关于印发《涉嫌破坏耕地犯罪案件移送指引》的通知",
+      "doc_number": "自然资发[2025]221号",
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mnr:http://gi.mnr.gov.cn/202606/t20260630_2933017.html",
+      "title": "自然资源部关于2026年第二批注册测绘师注册审批结果的公告",
+      "doc_number": "2026年 第15号",
+      "citation_count": 1,
+      "counts": {
+        "total": 3,
+        "passed": 1,
+        "blocked": 0,
+        "pending": 2
+      },
+      "blocked_ids": [],
+      "pending_ids": [
+        "c0"
+      ],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mnr:http://gi.mnr.gov.cn/202607/t20260708_2934023.html",
+      "title": "自然资源部所属单位2026年度公开招聘工作人员（第二批）拟聘人员公示（一）",
+      "doc_number": null,
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mnr:http://gi.mnr.gov.cn/202607/t20260708_2934049.html",
+      "title": "自然资源部办公厅 财政部办公厅 关于组织申报“十五五”历史遗留废弃矿山生态 修复工程项目的通知",
+      "doc_number": "自然资办函[2026]1141号",
+      "citation_count": 1,
+      "counts": {
+        "total": 3,
+        "passed": 1,
+        "blocked": 0,
+        "pending": 2
+      },
+      "blocked_ids": [],
+      "pending_ids": [
+        "c0"
+      ],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mnr:http://gi.mnr.gov.cn/202607/t20260710_2934243.html",
+      "title": "自然资源部所属单位2026年度公开招聘工作人员（第一批）拟聘人员公示（五）",
+      "doc_number": null,
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mnr:http://gi.mnr.gov.cn/202607/t20260717_2934727.html",
+      "title": "国家发展改革委、自然资源部、水利部关于印发 《海水淡化产业发展行动方案》的通知",
+      "doc_number": "发改环资〔2026〕1062号",
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mnr:http://gi.mnr.gov.cn/202607/t20260721_2934925.html",
+      "title": "关于新一批国家级绿色矿山名单的公示",
+      "doc_number": "自然资办发〔2025〕8号",
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mnr:http://gi.mnr.gov.cn/202607/t20260721_2934933.html",
+      "title": "自然资源部办公厅关于组织开展2026年测绘法宣传日暨国家版图意识宣传周主题宣传活动的通知",
+      "doc_number": "自然资办函〔2026〕1199号",
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mnr:http://gi.mnr.gov.cn/202607/t20260722_2935017.html",
+      "title": "自然资源部所属单位2026年度公开招聘工作人员公告（第四批）",
+      "doc_number": null,
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mnr:http://gi.mnr.gov.cn/202607/t20260722_2935019.html",
+      "title": "自然资源部信息中心2026年度公开招聘工作人员进入面试人员名单公告（第三批）",
+      "doc_number": null,
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mnr:http://gi.mnr.gov.cn/202607/t20260722_2935020.html",
+      "title": "自然资源部关于2026年第八批规划编制单位甲级资质认定的公告",
+      "doc_number": "2026年第16号",
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mnr:http://gi.mnr.gov.cn/202607/t20260723_2935104.html",
+      "title": "自然资源部2025年度部门决算",
+      "doc_number": null,
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mnr:http://gi.mnr.gov.cn/202607/t20260724_2935160.html",
+      "title": "自然资源部所属单位2026年度公开招聘工作人员（第一批）拟聘人员公示（六）",
+      "doc_number": null,
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mnr:http://gi.mnr.gov.cn/202607/t20260727_2935237.html",
+      "title": "新一轮找矿突破战略行动科技支撑项目（第二批）拟立项项目公示",
+      "doc_number": "自然资办函〔2025〕2966号",
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mnr:http://gi.mnr.gov.cn/202607/t20260729_2935343.html",
+      "title": "自然资源部所属单位2026年度公开招聘工作人员（第二批）拟聘人员公示（二）",
+      "doc_number": null,
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mnr:http://gi.mnr.gov.cn/202607/t20260730_2935435.html",
+      "title": "关于公开征求《矿业权登记管理暂行办法（征求意见稿）》意见的公告",
+      "doc_number": null,
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mnr:http://gi.mnr.gov.cn/202607/t20260730_2935437.html",
+      "title": "自然资源部办公厅 财政部办公厅关于组织申报地质灾害防治项目的通知",
+      "doc_number": "自然资办发[2026]15号",
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mnr:http://gi.mnr.gov.cn/202607/t20260731_2935555.html",
+      "title": "自然资源部关于自然资源智库2026年度面向社会委托研究课题的公告",
+      "doc_number": "2026年第18号",
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mnr:http://gi.mnr.gov.cn/202608/t20260803_2935625.html",
+      "title": "关于符合甲级规划资质条件的规划编制单位名单（第五十一批）的公示",
+      "doc_number": null,
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mnr:http://gi.mnr.gov.cn/202608/t20260803_2935627.html",
+      "title": "自然资源部办公厅关于印发《全国地质灾害防治“十五五”实施方案》的通知",
+      "doc_number": "自然资办函〔2026〕1198号",
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mnr:http://gi.mnr.gov.cn/202608/t20260803_2935630.html",
+      "title": "自然资源部信息中心2026年公开招聘工作人员（第三批）考察对象名单",
+      "doc_number": null,
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mnr:http://gi.mnr.gov.cn/202608/t20260803_2935631.html",
+      "title": "国家海洋环境预报中心2026年度第四批公开招聘工作人员面试通知",
+      "doc_number": null,
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mnr:http://gi.mnr.gov.cn/202608/t20260803_2935632.html",
+      "title": "国家南极考察训练基地关于2026年度公开招聘工作人员（第四批）资格审查结果及自主笔试的公告",
+      "doc_number": null,
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mnr:http://gi.mnr.gov.cn/202608/t20260804_2935717.html",
+      "title": "自然资源部关于2026年第三批注册测绘师注册审批结果的公告",
+      "doc_number": "2026年第19号",
+      "citation_count": 1,
+      "counts": {
+        "total": 3,
+        "passed": 1,
+        "blocked": 0,
+        "pending": 2
+      },
+      "blocked_ids": [],
+      "pending_ids": [
+        "c0"
+      ],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mnr:http://gi.mnr.gov.cn/202608/t20260804_2935719.html",
+      "title": "中国国土勘测规划院公开招收博士后人员公告",
+      "doc_number": null,
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mnr:http://gi.mnr.gov.cn/202608/t20260806_2935809.html",
+      "title": "自然资源部所属单位2026年度公开招聘工作人员（第二批）拟聘人员公示（三）",
+      "doc_number": null,
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mnr:http://gi.mnr.gov.cn/202608/t20260807_2935893.html",
+      "title": "国家海洋环境预报中心2026年度第四批公开招聘考察对象名单",
+      "doc_number": null,
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mnr:http://gi.mnr.gov.cn/202608/t20260810_2935999.html",
+      "title": "自然资源部信息中心关于递补考察对象的公告",
+      "doc_number": null,
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mnr:http://gi.mnr.gov.cn/202608/t20260813_2936198.html",
+      "title": "自然资源部办公厅 国家数据局综合司关于开展2026年实景三维数据赋能高质量发展创新应用典型案例征集工作的通知",
+      "doc_number": "自然资办函〔2026〕1264号",
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mnr:http://gi.mnr.gov.cn/202608/t20260818_2936504.html",
+      "title": "自然资源部信息中心关于递补考察对象的公告",
+      "doc_number": null,
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mnr:http://gi.mnr.gov.cn/202608/t20260821_2936757.html",
+      "title": "国家南极考察训练基地关于2026年度公开招聘工作人员（第四批）笔试结果及面试安排的公告",
+      "doc_number": null,
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mnr:http://gi.mnr.gov.cn/202608/t20260826_2937034.html",
+      "title": "自然资源部所属单位2026年度公开招聘工作人员（第四批）拟聘人员公示（一）",
+      "doc_number": null,
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mnr:http://gi.mnr.gov.cn/202608/t20260827_2937144.html",
+      "title": "自然资源部办公厅 财政部办公厅关于组织申报“十五五”海洋调查项目的通知",
+      "doc_number": "自然资办函〔2026〕1193号",
+      "citation_count": 1,
+      "counts": {
+        "total": 3,
+        "passed": 1,
+        "blocked": 0,
+        "pending": 2
+      },
+      "blocked_ids": [],
+      "pending_ids": [
+        "c0"
+      ],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mnr:http://gi.mnr.gov.cn/202608/t20260827_2937165.html",
+      "title": "自然资源部关于2026年第九批规划编制单位甲级资质认定的公告",
+      "doc_number": "2026年第20号",
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mnr:http://gi.mnr.gov.cn/202608/t20260828_2937228.html",
+      "title": "住房城乡建设部 自然资源部 金融监管总局关于完善商品住房销售制度的通知",
+      "doc_number": "建房规〔2026〕3号",
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mnr:http://gi.mnr.gov.cn/202608/t20260828_2937229.html",
+      "title": "2026年海洋生态保护修复典型案例评选结果公示",
+      "doc_number": null,
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mnr:http://gi.mnr.gov.cn/202608/t20260831_2937341.html",
+      "title": "自然资源部国土整治中心（自然资源部土地科技创新中心）2026年度公开招收博士后人员考核答辩公告",
+      "doc_number": null,
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mnr:http://gi.mnr.gov.cn/202609/t20260901_2937379.html",
+      "title": "关于符合甲级规划资质条件的规划编制单位名单（第五十二批）的公示",
+      "doc_number": null,
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mnr:http://gi.mnr.gov.cn/202609/t20260904_2937623.html",
+      "title": "2026年矿区生态修复典型案例评选结果公示",
+      "doc_number": null,
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mnr:http://gi.mnr.gov.cn/202609/t20260908_2937902.html",
+      "title": "自然资源部所属单位2026年度公开招聘工作人员（第三批）拟聘人员公示（一）",
+      "doc_number": null,
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mnr:http://gi.mnr.gov.cn/202609/t20260909_2938013.html",
+      "title": "自然资源部关于曹妃甸大型海工装备制造项目海域使用论证报告的公示",
+      "doc_number": "自然资规〔2021〕1号",
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mnr:http://gi.mnr.gov.cn/202609/t20260909_2938014.html",
+      "title": "中国国土勘测规划院公开招聘博士后资格审查结果及面试安排有关事项的通知",
+      "doc_number": null,
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mnr:http://gi.mnr.gov.cn/202609/t20260909_2938015.html",
+      "title": "国家南极考察训练基地关于发布2026年度公开招聘工作人员（第四批）考察对象名单的公告",
+      "doc_number": null,
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mnr:http://gi.mnr.gov.cn/202609/t20260909_2938017.html",
+      "title": "自然资源部关于深圳港西部港区出海航道二期工程海域使用论证报告的公示",
+      "doc_number": "自然资规〔2021〕1号",
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mnr:http://gi.mnr.gov.cn/202609/t20260911_2938173.html",
+      "title": "关于《自然资源部关于规范矿业权管理有关事项的通知（征求意见稿）》公开征求意见情况的公告",
+      "doc_number": null,
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mnr:http://gi.mnr.gov.cn/202609/t20260914_2938274.html",
+      "title": "中共自然资源部党组关于魏莉华等41名同志试用期满正式任职的通知",
+      "doc_number": "自然资党任〔2026〕42号",
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mnr:http://gi.mnr.gov.cn/202609/t20260914_2938275.html",
+      "title": "关于自然资源部矿业权出让权限非油气矿产勘查方案评审专家库人员名单的公示",
+      "doc_number": null,
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mnr:http://gi.mnr.gov.cn/202609/t20260915_2938379.html",
+      "title": "自然资源部 文化和旅游部 国家林业和草原局关于优化自然资源配置 推动旅游业规范有序发展的指导意见",
+      "doc_number": "自然资发〔2026〕122号",
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mnr:http://gi.mnr.gov.cn/202609/t20260915_2938389.html",
+      "title": "自然资源部国土整治中心（自然资源部土地科技创新中心）2026年度公开招收博士后人员考察对象名单",
+      "doc_number": null,
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mnr:http://gi.mnr.gov.cn/202609/t20260916_2938520.html",
+      "title": "自然资源部办公厅关于第二届全国不动产登记技能竞赛结果的通报",
+      "doc_number": "自然资办函〔2026〕1492号",
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mnr:http://gi.mnr.gov.cn/202609/t20260918_2938664.html",
+      "title": "自然资源部所属单位2026年度公开招聘工作人员（第三批）拟聘人员公示（二）",
+      "doc_number": null,
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mnr:http://gi.mnr.gov.cn/202609/t20260918_2938665.html",
+      "title": "“十五五”历史遗留废弃矿山生态修复工程项目实施方案审核结果公示",
+      "doc_number": null,
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mnr:http://gi.mnr.gov.cn/202609/t20260920_2938719.html",
+      "title": "自然资源部关于锦州港第三锚地扩建工程海域使用论证报告的公示",
+      "doc_number": "自然资规〔2021〕1号",
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mnr:http://gi.mnr.gov.cn/202609/t20260921_2938777.html",
+      "title": "自然资源部关于公开遴选地质灾害防治项目审核专家库\n专家的公告",
+      "doc_number": "2026年第23号",
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mnr:http://gi.mnr.gov.cn/202609/t20260921_2938809.html",
+      "title": "中国国土勘测规划院公开招收博士后人员考察对象名单",
+      "doc_number": null,
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mnr:http://gi.mnr.gov.cn/202609/t20260921_2938810.html",
+      "title": "自然资源部关于2026年第十批规划编制单位甲级资质认定的公告",
+      "doc_number": "2026年第22号",
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mnr:http://gi.mnr.gov.cn/202609/t20260922_2938948.html",
+      "title": "关于符合甲级规划资质条件的规划编制单位名单（第五十三批）的公示",
+      "doc_number": null,
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mnr:http://gi.mnr.gov.cn/202609/t20260922_2938949.html",
+      "title": "自然资源部关于开展海洋资源保护与利用突出贡献奖评选表彰的通知",
+      "doc_number": "自然资函〔2026〕593号",
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mnr:http://gi.mnr.gov.cn/202609/t20260923_2939029.html",
+      "title": "中共自然资源部党组关于刘伟、李红同志任免职的通知",
+      "doc_number": "自然资党任〔2026〕47号",
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mnr:http://gi.mnr.gov.cn/202609/t20260923_2939031.html",
+      "title": "自然资源部关于将彭泽县丰岭矿区建筑石料用灰岩矿移出国家级绿色矿山名录的公告",
+      "doc_number": "2026年第25号",
+      "citation_count": 1,
+      "counts": {
+        "total": 3,
+        "passed": 1,
+        "blocked": 0,
+        "pending": 2
+      },
+      "blocked_ids": [],
+      "pending_ids": [
+        "c0"
+      ],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mnr:http://gi.mnr.gov.cn/202609/t20260924_2939261.html",
+      "title": "关于取消中国大洋矿产资源研究开发协会（中国大洋事务管理局）专业技术岗2招聘计划的公告",
+      "doc_number": null,
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mnr:http://gi.mnr.gov.cn/202609/t20260924_2939265.html",
+      "title": "自然资源部办公厅关于通报表扬2026年1—7月地质灾害成功避险案例的通知",
+      "doc_number": "自然资办函〔2026〕1564号",
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mnr:http://gi.mnr.gov.cn/202609/t20260924_2939266.html",
+      "title": "自然资源部关于2026年第四批注册测绘师注册审批结果的公告",
+      "doc_number": "2026年第24号",
+      "citation_count": 1,
+      "counts": {
+        "total": 3,
+        "passed": 1,
+        "blocked": 0,
+        "pending": 2
+      },
+      "blocked_ids": [],
+      "pending_ids": [
+        "c0"
+      ],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mnr:http://gi.mnr.gov.cn/202609/t20260929_2939425.html",
+      "title": "自然资源部 国家林业和草原局关于支持服务业优质高效发展的通知",
+      "doc_number": "自然资发〔2026〕135号",
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mnr:http://gi.mnr.gov.cn/202609/t20260930_2939497.html",
+      "title": "自然资源部国土整治中心（自然资源部土地科技创新中心）2026年度公开招收博士后人员拟录用人员公示",
+      "doc_number": null,
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mnr:http://gi.mnr.gov.cn/202610/t20261010_2939755.html",
+      "title": "关于地质灾害防治项目审核专家库遴选审核结果的公示",
+      "doc_number": null,
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mnr:http://gi.mnr.gov.cn/202610/t20261012_2939850.html",
+      "title": "中共自然资源部党组关于董庆吉等27名同志试用期满正式任职的通知",
+      "doc_number": "自然资党任[2026]52号",
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mnr:http://gi.mnr.gov.cn/202610/t20261013_2939916.html",
+      "title": "自然资源部办公厅关于印发《盘活存量土地和低效用地典型案例2026版》的函",
+      "doc_number": "自然资办函〔2026〕1567号",
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mnr:http://gi.mnr.gov.cn/202610/t20261013_2939934.html",
+      "title": "自然资源部 国家发展改革委关于发布《矿产资源目录》的公告",
+      "doc_number": "2026年第28号",
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mnr:https://www.mnr.gov.cn/gk/tzgg/202608/t20260824_2936891.html",
+      "title": "关于公开征求《自然资源部关于规范矿业权管理有关事项的通知（征求意见稿）》意见的公告",
+      "doc_number": null,
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mnr:https://www.mnr.gov.cn/gk/tzgg/202609/t20260910_2938101.html",
+      "title": "关于公开征求《自然资源部关于规范临时用地管理的通知（征求意见稿）》意见的公告",
+      "doc_number": null,
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mnr:https://www.mnr.gov.cn/gk/tzgg/202609/t20260929_2939427.html",
+      "title": "关于公开征求《自然资源部关于进一步推进海域分层立体利用工作的通知（公开征求意见稿）》意见的公告",
+      "doc_number": null,
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mnr:https://www.mnr.gov.cn/gk/tzgg/202610/t20261008_2939647.html",
+      "title": "关于公开征求《自然资源部关于规范探矿权招标出让的通知（征求意见稿）》意见的公告",
+      "doc_number": null,
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mof:http://jrs.mof.gov.cn/gongzuotongzhi/202607/t20260716_3993671.htm",
+      "title": "关于公布2026年中央财政支持普惠金融发展示范区名单等有关事项的通知",
+      "doc_number": "财金〔2026〕57号",
+      "citation_count": 1,
+      "counts": {
+        "total": 3,
+        "passed": 1,
+        "blocked": 0,
+        "pending": 2
+      },
+      "blocked_ids": [],
+      "pending_ids": [
+        "c0"
+      ],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mof:http://kjs.mof.gov.cn/gongzuotongzhi/202608/t20260803_3994682.htm",
+      "title": "关于征求《政府会计准则制度解释第8号（征求意见稿）》意见的函",
+      "doc_number": "财办会〔2026〕21号",
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mof:http://kjs.mof.gov.cn/gongzuotongzhi/202609/t20260915_3997440.htm",
+      "title": "关于征求《企业会计准则解释第21号（征求意见稿）》意见的函",
+      "doc_number": "财办会〔2026〕30号",
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mof:http://kjs.mof.gov.cn/gongzuotongzhi/202609/t20260915_3997441.htm",
+      "title": "关于征求《企业会计准则解释第22号（征求意见稿）》意见的函",
+      "doc_number": "财办会〔2026〕31号",
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mof:http://kjs.mof.gov.cn/gongzuotongzhi/202609/t20260921_3997874.htm",
+      "title": "关于征求《财政部关于加快推进会计数智化工作的指导意见（征求意见稿）》意见的函",
+      "doc_number": "财办会〔2026〕32号",
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mof:http://kjs.mof.gov.cn/gongzuotongzhi/202609/t20260929_3998329.htm",
+      "title": "关于征求《〈企业可持续披露准则第1号——气候（试行）〉应用指南（征求意见稿）》及电力等9项行业应用指南（征求意见稿）意见的函",
+      "doc_number": "财办会〔2026〕34号",
+      "citation_count": 1,
+      "counts": {
+        "total": 3,
+        "passed": 1,
+        "blocked": 0,
+        "pending": 2
+      },
+      "blocked_ids": [],
+      "pending_ids": [
+        "c0"
+      ],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mof:http://kjs.mof.gov.cn/gongzuotongzhi/202609/t20260930_3998445.htm",
+      "title": "关于征求《企业会计准则——会计科目和主要账务处理（修订征求意见稿）》意见的函",
+      "doc_number": "财办会〔2026〕35号",
+      "citation_count": 1,
+      "counts": {
+        "total": 3,
+        "passed": 1,
+        "blocked": 0,
+        "pending": 2
+      },
+      "blocked_ids": [],
+      "pending_ids": [
+        "c0"
+      ],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mof:http://kjs.mof.gov.cn/gongzuotongzhi/202610/t20261008_3998563.htm",
+      "title": "关于征求《行政事业单位内部控制规范（修订征求意见稿）》意见的函",
+      "doc_number": "财办会〔2026〕36号",
+      "citation_count": 1,
+      "counts": {
+        "total": 3,
+        "passed": 1,
+        "blocked": 0,
+        "pending": 2
+      },
+      "blocked_ids": [],
+      "pending_ids": [
+        "c0"
+      ],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mof:http://kjs.mof.gov.cn/gongzuotongzhi/202610/t20261012_4002610.htm",
+      "title": "关于就国际会计准则理事会发布的金融工具准则实施后审议意见征询稿公开征求意见的函",
+      "doc_number": "财会便函〔2026〕52号",
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mof:http://tfs.mof.gov.cn/caizhengbuling/201912/t20191210_3439068.htm",
+      "title": "中华人民共和国财政部令第101号--政府采购信息发布管理办法",
+      "doc_number": "财政部令第19号",
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mof:http://tfs.mof.gov.cn/caizhengbuling/202001/t20200122_3463449.htm",
+      "title": "中华人民共和国财政部令第102号--政府购买服务管理办法",
+      "doc_number": "中华人民共和国财政部令第102号",
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mof:http://tfs.mof.gov.cn/caizhengbuling/202002/t20200211_3468472.htm",
+      "title": "中华人民共和国财政部令第103号--财政部关于公布废止和失效的财政规章和规范性文件目录（第十三批）的决定",
+      "doc_number": "中华人民共和国财政部令第103号",
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mof:http://tfs.mof.gov.cn/caizhengbuling/202012/t20201208_3633455.htm",
+      "title": "中华人民共和国财政部令第104号--财政部关于修改《财政票据管理办法》的决定",
+      "doc_number": "财综字〔1998〕104号",
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mof:http://tfs.mof.gov.cn/caizhengbuling/202104/t20210402_3680546.htm",
+      "title": "中华人民共和国财政部令第105号--财政部关于废止《罚没财物和追回赃款赃物管理办法》的决定",
+      "doc_number": "中华人民共和国财政部令第105号",
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mof:http://tfs.mof.gov.cn/caizhengbuling/202104/t20210421_3689672.htm",
+      "title": "中华人民共和国财政部 中华人民共和国海关总署 国家税务总局令第106号--关于废止《科学研究和教学用品免征进口税收规定》等3部规章的决定",
+      "doc_number": "税务总局令第45号",
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mof:http://tfs.mof.gov.cn/caizhengbuling/202112/t20211202_3771454.htm",
+      "title": "中华人民共和国财政部 中国银行保险监督管理委员会 中华人民共和国公安部 中华人民共和国国家卫生健康委员会 中华人民共和国农业农村部令第107号  --道路交通事故社会救助基金管理办法",
+      "doc_number": "农业部令第56号",
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mof:http://tfs.mof.gov.cn/caizhengbuling/202201/t20220118_3783061.htm",
+      "title": "中华人民共和国财政部令第108号--事业单位财务规则",
+      "doc_number": "财政部令第68号",
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mof:http://tfs.mof.gov.cn/caizhengbuling/202201/t20220124_3784602.htm",
+      "title": "中华人民共和国财政部令第109号--财政行政处罚听证实施办法",
+      "doc_number": "财政部令第23号",
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mof:http://tfs.mof.gov.cn/caizhengbuling/202201/t20220127_3785268.htm",
+      "title": "中华人民共和国财政部令第110号--政府采购框架协议采购方式管理暂行办法",
+      "doc_number": "中华人民共和国财政部令第110号",
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mof:http://tfs.mof.gov.cn/caizhengbuling/202207/t20220701_3824117.htm",
+      "title": "中华人民共和国财政部 中华人民共和国生态环境部 中华人民共和国国家发展和改革委员会 中华人民共和国外交部 中华人民共和国科学技术部 中华人民共和国农业农村部中国气象局令第111号 --中国清洁发展机制基金管理办法",
+      "doc_number": "中国气象局令第59号",
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mof:http://tfs.mof.gov.cn/caizhengbuling/202212/t20221220_3859009.htm",
+      "title": "中华人民共和国财政部令第112号--财政部关于废止部分规范性文件的决定",
+      "doc_number": "中华人民共和国财政部令第112号",
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mof:http://tfs.mof.gov.cn/caizhengbuling/202302/t20230207_3865456.htm",
+      "title": "中华人民共和国财政部令第113号--行政单位财务规则",
+      "doc_number": "财政部令第71号",
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mof:http://tfs.mof.gov.cn/caizhengbuling/202401/t20240125_3927222.htm",
+      "title": "中华人民共和国财政部令第114号--财政部关于公布废止和失效的财政规章和规范性文件目录（第十四批）的决定",
+      "doc_number": "中华人民共和国财政部令第114号",
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mof:http://tfs.mof.gov.cn/caizhengbuling/202402/t20240207_3928476.htm",
+      "title": "中华人民共和国财政部令第115号--财政部关于修改《注册会计师全国统一考试办法》的决定",
+      "doc_number": "财会〔2001〕1053号",
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mof:http://tfs.mof.gov.cn/caizhengbuling/202411/t20241126_3948358.htm",
+      "title": "中华人民共和国财政部令第116号--注册会计师行业严重失信主体名单管理办法",
+      "doc_number": "中华人民共和国财政部令第116号",
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mof:http://tzps.mof.gov.cn/tongzhigonggao/202608/t20260825_3996043.htm",
+      "title": "财政部预算评审中心2026年课题研究征集公告",
+      "doc_number": null,
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mof:http://zwgls.mof.gov.cn/ywgg/202607/t20260715_3993541.htm",
+      "title": "关于2026年记账式附息（十期）国债第五次续发行工作有关事宜的通知",
+      "doc_number": "财办债〔2026〕146号",
+      "citation_count": 1,
+      "counts": {
+        "total": 3,
+        "passed": 1,
+        "blocked": 0,
+        "pending": 2
+      },
+      "blocked_ids": [],
+      "pending_ids": [
+        "c0"
+      ],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mof:http://zwgls.mof.gov.cn/ywgg/202607/t20260715_3993542.htm",
+      "title": "关于2026年记账式贴现（四十三期）国债发行工作有关事宜的通知",
+      "doc_number": "财办债〔2026〕147号",
+      "citation_count": 1,
+      "counts": {
+        "total": 3,
+        "passed": 1,
+        "blocked": 0,
+        "pending": 2
+      },
+      "blocked_ids": [],
+      "pending_ids": [
+        "c0"
+      ],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mof:http://zwgls.mof.gov.cn/ywgg/202607/t20260717_3993758.htm",
+      "title": "关于2026年记账式附息（十五期）国债发行工作有关事宜的通知",
+      "doc_number": "财办债〔2026〕149号",
+      "citation_count": 1,
+      "counts": {
+        "total": 3,
+        "passed": 1,
+        "blocked": 0,
+        "pending": 2
+      },
+      "blocked_ids": [],
+      "pending_ids": [
+        "c0"
+      ],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mof:http://zwgls.mof.gov.cn/ywgg/202607/t20260720_3993865.htm",
+      "title": "关于2026年记账式贴现（四十四期）国债发行工作有关事宜的通知",
+      "doc_number": "财办债〔2026〕148号",
+      "citation_count": 1,
+      "counts": {
+        "total": 3,
+        "passed": 1,
+        "blocked": 0,
+        "pending": 2
+      },
+      "blocked_ids": [],
+      "pending_ids": [
+        "c0"
+      ],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mof:http://zwgls.mof.gov.cn/ywgg/202607/t20260721_3993907.htm",
+      "title": "关于2026年记账式贴现（四十五期）国债发行工作有关事宜的通知",
+      "doc_number": "财办债〔2026〕151号",
+      "citation_count": 1,
+      "counts": {
+        "total": 3,
+        "passed": 1,
+        "blocked": 0,
+        "pending": 2
+      },
+      "blocked_ids": [],
+      "pending_ids": [
+        "c0"
+      ],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mof:http://zwgls.mof.gov.cn/ywgg/202607/t20260727_3994342.htm",
+      "title": "关于公布2026年上半年记账式国债现货交易量排名的通知",
+      "doc_number": "财债便函〔2026〕67号",
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mof:http://zwgls.mof.gov.cn/ywgg/202607/t20260727_3994347.htm",
+      "title": "关于2026年记账式贴现（四十六期）国债发行工作有关事宜的通知",
+      "doc_number": "财办债〔2026〕152号",
+      "citation_count": 1,
+      "counts": {
+        "total": 3,
+        "passed": 1,
+        "blocked": 0,
+        "pending": 2
+      },
+      "blocked_ids": [],
+      "pending_ids": [
+        "c0"
+      ],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mof:http://zwgls.mof.gov.cn/ywgg/202607/t20260731_3994595.htm",
+      "title": "关于2026年记账式附息（十二期）国债第二次续发行工作有关事宜的通知",
+      "doc_number": "财办债〔2026〕159号",
+      "citation_count": 1,
+      "counts": {
+        "total": 3,
+        "passed": 1,
+        "blocked": 0,
+        "pending": 2
+      },
+      "blocked_ids": [],
+      "pending_ids": [
+        "c0"
+      ],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mof:http://zwgls.mof.gov.cn/ywgg/202607/t20260731_3994598.htm",
+      "title": "关于2026年记账式附息（十四期）国债第一次续发行工作有关事宜的通知",
+      "doc_number": "财办债〔2026〕160号",
+      "citation_count": 1,
+      "counts": {
+        "total": 3,
+        "passed": 1,
+        "blocked": 0,
+        "pending": 2
+      },
+      "blocked_ids": [],
+      "pending_ids": [
+        "c0"
+      ],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mof:http://zwgls.mof.gov.cn/ywgg/202608/t20260804_3994791.htm",
+      "title": "关于2026年记账式贴现（四十七期）国债发行工作有关事宜的通知",
+      "doc_number": "财办债〔2026〕155号",
+      "citation_count": 1,
+      "counts": {
+        "total": 3,
+        "passed": 1,
+        "blocked": 0,
+        "pending": 2
+      },
+      "blocked_ids": [],
+      "pending_ids": [
+        "c0"
+      ],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mof:http://zwgls.mof.gov.cn/ywgg/202608/t20260804_3994792.htm",
+      "title": "关于2026年记账式贴现（四十八期）国债发行工作有关事宜的通知",
+      "doc_number": "财办债〔2026〕156号",
+      "citation_count": 1,
+      "counts": {
+        "total": 3,
+        "passed": 1,
+        "blocked": 0,
+        "pending": 2
+      },
+      "blocked_ids": [],
+      "pending_ids": [
+        "c0"
+      ],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mof:http://zwgls.mof.gov.cn/ywgg/202608/t20260807_3995082.htm",
+      "title": "关于2026年记账式附息（十六期）国债发行工作有关事宜的通知",
+      "doc_number": "财办债〔2026〕168号",
+      "citation_count": 1,
+      "counts": {
+        "total": 3,
+        "passed": 1,
+        "blocked": 0,
+        "pending": 2
+      },
+      "blocked_ids": [],
+      "pending_ids": [
+        "c0"
+      ],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mof:http://zwgls.mof.gov.cn/ywgg/202608/t20260811_3995228.htm",
+      "title": "关于2026年记账式贴现（四十九期）国债发行工作有关事宜的通知",
+      "doc_number": "财办债〔2026〕163号",
+      "citation_count": 1,
+      "counts": {
+        "total": 3,
+        "passed": 1,
+        "blocked": 0,
+        "pending": 2
+      },
+      "blocked_ids": [],
+      "pending_ids": [
+        "c0"
+      ],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mof:http://zwgls.mof.gov.cn/ywgg/202608/t20260811_3995229.htm",
+      "title": "关于2026年记账式贴现（五十期）国债发行工作有关事宜的通知",
+      "doc_number": "财办债〔2026〕164号",
+      "citation_count": 1,
+      "counts": {
+        "total": 3,
+        "passed": 1,
+        "blocked": 0,
+        "pending": 2
+      },
+      "blocked_ids": [],
+      "pending_ids": [
+        "c0"
+      ],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mof:http://zwgls.mof.gov.cn/ywgg/202608/t20260812_3995306.htm",
+      "title": "关于2026年记账式贴现（五十一期）国债发行工作有关事宜的通知",
+      "doc_number": "财办债〔2026〕172号",
+      "citation_count": 1,
+      "counts": {
+        "total": 3,
+        "passed": 1,
+        "blocked": 0,
+        "pending": 2
+      },
+      "blocked_ids": [],
+      "pending_ids": [
+        "c0"
+      ],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mof:http://zwgls.mof.gov.cn/ywgg/202608/t20260814_3995464.htm",
+      "title": "关于2026年记账式附息（十三期）国债第二次续发行工作有关事宜的通知",
+      "doc_number": "财办债〔2026〕174号",
+      "citation_count": 1,
+      "counts": {
+        "total": 3,
+        "passed": 1,
+        "blocked": 0,
+        "pending": 2
+      },
+      "blocked_ids": [],
+      "pending_ids": [
+        "c0"
+      ],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mof:http://zwgls.mof.gov.cn/ywgg/202608/t20260814_3995465.htm",
+      "title": "关于2026年记账式附息（十五期）国债第一次续发行工作有关事宜的通知",
+      "doc_number": "财办债〔2026〕175号",
+      "citation_count": 1,
+      "counts": {
+        "total": 3,
+        "passed": 1,
+        "blocked": 0,
+        "pending": 2
+      },
+      "blocked_ids": [],
+      "pending_ids": [
+        "c0"
+      ],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mof:http://zwgls.mof.gov.cn/ywgg/202608/t20260818_3995687.htm",
+      "title": "关于2026年记账式贴现（五十二期）国债发行工作有关事宜的通知",
+      "doc_number": "财办债〔2026〕173号",
+      "citation_count": 1,
+      "counts": {
+        "total": 3,
+        "passed": 1,
+        "blocked": 0,
+        "pending": 2
+      },
+      "blocked_ids": [],
+      "pending_ids": [
+        "c0"
+      ],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mof:http://zwgls.mof.gov.cn/ywgg/202608/t20260819_3995798.htm",
+      "title": "关于2026年记账式贴现（五十三期）国债发行工作有关事宜的通知",
+      "doc_number": "财办债〔2026〕181号",
+      "citation_count": 1,
+      "counts": {
+        "total": 3,
+        "passed": 1,
+        "blocked": 0,
+        "pending": 2
+      },
+      "blocked_ids": [],
+      "pending_ids": [
+        "c0"
+      ],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mof:http://zwgls.mof.gov.cn/ywgg/202608/t20260825_3996062.htm",
+      "title": "关于2026年记账式贴现（五十四期）国债发行工作有关事宜的通知",
+      "doc_number": "财办债〔2026〕182号",
+      "citation_count": 1,
+      "counts": {
+        "total": 3,
+        "passed": 1,
+        "blocked": 0,
+        "pending": 2
+      },
+      "blocked_ids": [],
+      "pending_ids": [
+        "c0"
+      ],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mof:http://zwgls.mof.gov.cn/ywgg/202608/t20260826_3996127.htm",
+      "title": "关于2026年记账式贴现（五十五期）国债发行工作有关事宜的通知",
+      "doc_number": "财办债〔2026〕183号",
+      "citation_count": 1,
+      "counts": {
+        "total": 3,
+        "passed": 1,
+        "blocked": 0,
+        "pending": 2
+      },
+      "blocked_ids": [],
+      "pending_ids": [
+        "c0"
+      ],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mof:http://zwgls.mof.gov.cn/ywgg/202608/t20260828_3996291.htm",
+      "title": "关于2026年记账式附息（十四期）国债第二次续发行工作有关事宜的通知",
+      "doc_number": "财办债〔2026〕186号",
+      "citation_count": 1,
+      "counts": {
+        "total": 3,
+        "passed": 1,
+        "blocked": 0,
+        "pending": 2
+      },
+      "blocked_ids": [],
+      "pending_ids": [
+        "c0"
+      ],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mof:http://zwgls.mof.gov.cn/ywgg/202609/t20260901_3996444.htm",
+      "title": "关于2026年记账式贴现（五十六期）国债发行工作有关事宜的通知",
+      "doc_number": "财办债〔2026〕184号",
+      "citation_count": 1,
+      "counts": {
+        "total": 3,
+        "passed": 1,
+        "blocked": 0,
+        "pending": 2
+      },
+      "blocked_ids": [],
+      "pending_ids": [
+        "c0"
+      ],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mof:http://zwgls.mof.gov.cn/ywgg/202609/t20260908_3996931.htm",
+      "title": "关于2026年记账式贴现（五十七期） 国债发行工作有关事宜的通知",
+      "doc_number": "财办债〔2026〕190号",
+      "citation_count": 1,
+      "counts": {
+        "total": 3,
+        "passed": 1,
+        "blocked": 0,
+        "pending": 2
+      },
+      "blocked_ids": [],
+      "pending_ids": [
+        "c0"
+      ],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mof:http://zwgls.mof.gov.cn/ywgg/202609/t20260908_3996932.htm",
+      "title": "关于2026年记账式贴现（五十八期） 国债发行工作有关事宜的通知",
+      "doc_number": "财办债〔2026〕191号",
+      "citation_count": 1,
+      "counts": {
+        "total": 3,
+        "passed": 1,
+        "blocked": 0,
+        "pending": 2
+      },
+      "blocked_ids": [],
+      "pending_ids": [
+        "c0"
+      ],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mof:http://zwgls.mof.gov.cn/ywgg/202609/t20260908_3996950.htm",
+      "title": "关于2026年第七期和第八期储蓄国债（电子式）发行工作有关事宜的通知",
+      "doc_number": "财债〔2026〕32号",
+      "citation_count": 1,
+      "counts": {
+        "total": 3,
+        "passed": 1,
+        "blocked": 0,
+        "pending": 2
+      },
+      "blocked_ids": [],
+      "pending_ids": [
+        "c0"
+      ],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mof:http://zwgls.mof.gov.cn/ywgg/202609/t20260915_3997433.htm",
+      "title": "关于2026年记账式贴现（五十九期）国债发行工作有关事宜的通知",
+      "doc_number": "财办债〔2026〕197号",
+      "citation_count": 1,
+      "counts": {
+        "total": 3,
+        "passed": 1,
+        "blocked": 0,
+        "pending": 2
+      },
+      "blocked_ids": [],
+      "pending_ids": [
+        "c0"
+      ],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mof:http://zwgls.mof.gov.cn/ywgg/202609/t20260915_3997436.htm",
+      "title": "关于2026年记账式贴现（六十期）国债发行工作有关事宜的通知",
+      "doc_number": "财办债〔2026〕198号",
+      "citation_count": 1,
+      "counts": {
+        "total": 3,
+        "passed": 1,
+        "blocked": 0,
+        "pending": 2
+      },
+      "blocked_ids": [],
+      "pending_ids": [
+        "c0"
+      ],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mof:http://zwgls.mof.gov.cn/ywgg/202609/t20260915_3997437.htm",
+      "title": "关于2026年记账式附息（十六期）国债第三次续发行工作有关事宜的通知",
+      "doc_number": "财办债〔2026〕201号",
+      "citation_count": 1,
+      "counts": {
+        "total": 3,
+        "passed": 1,
+        "blocked": 0,
+        "pending": 2
+      },
+      "blocked_ids": [],
+      "pending_ids": [
+        "c0"
+      ],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mof:http://zwgls.mof.gov.cn/ywgg/202609/t20260915_3997439.htm",
+      "title": "关于2026年记账式附息（十七期）国债第一次续发行工作有关事宜的通知",
+      "doc_number": "财办债〔2026〕202号",
+      "citation_count": 1,
+      "counts": {
+        "total": 3,
+        "passed": 1,
+        "blocked": 0,
+        "pending": 2
+      },
+      "blocked_ids": [],
+      "pending_ids": [
+        "c0"
+      ],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mof:http://zwgls.mof.gov.cn/ywgg/202609/t20260917_3997584.htm",
+      "title": "关于2026年记账式贴现（六十一期）国债发行工作有关事宜的通知",
+      "doc_number": "财办债〔2026〕204号",
+      "citation_count": 1,
+      "counts": {
+        "total": 3,
+        "passed": 1,
+        "blocked": 0,
+        "pending": 2
+      },
+      "blocked_ids": [],
+      "pending_ids": [
+        "c0"
+      ],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mof:http://zwgls.mof.gov.cn/ywgg/202609/t20260922_3997959.htm",
+      "title": "关于2026年记账式贴现（六十二期）国债发行工作有关事宜的通知",
+      "doc_number": "财办债〔2026〕205号",
+      "citation_count": 1,
+      "counts": {
+        "total": 3,
+        "passed": 1,
+        "blocked": 0,
+        "pending": 2
+      },
+      "blocked_ids": [],
+      "pending_ids": [
+        "c0"
+      ],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mof:http://zwgls.mof.gov.cn/ywgg/202609/t20260929_3998334.htm",
+      "title": "关于公布2026年第四季度国债发行有关安排的通知",
+      "doc_number": "财办债〔2026〕213号",
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mof:http://zwgls.mof.gov.cn/ywgg/202610/t20261010_4002491.htm",
+      "title": "关于2026年记账式附息（十七期）国债第二次续发行工作有关事宜的通知",
+      "doc_number": "财办债〔2026〕218号",
+      "citation_count": 1,
+      "counts": {
+        "total": 3,
+        "passed": 1,
+        "blocked": 0,
+        "pending": 2
+      },
+      "blocked_ids": [],
+      "pending_ids": [
+        "c0"
+      ],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mof:http://zwgls.mof.gov.cn/ywgg/202610/t20261013_4002694.htm",
+      "title": "关于2026年记账式贴现（六十四期）国债发行工作有关事宜的通知",
+      "doc_number": "财办债〔2026〕215号",
+      "citation_count": 1,
+      "counts": {
+        "total": 3,
+        "passed": 1,
+        "blocked": 0,
+        "pending": 2
+      },
+      "blocked_ids": [],
+      "pending_ids": [
+        "c0"
+      ],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mof:http://zwgls.mof.gov.cn/ywgg/202610/t20261013_4002703.htm",
+      "title": "关于2026年记账式贴现（六十五期）国债发行工作有关事宜的通知",
+      "doc_number": "财办债〔2026〕219号",
+      "citation_count": 1,
+      "counts": {
+        "total": 3,
+        "passed": 1,
+        "blocked": 0,
+        "pending": 2
+      },
+      "blocked_ids": [],
+      "pending_ids": [
+        "c0"
+      ],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:mof:http://zwgls.mof.gov.cn/ywgg/202610/t20261013_4002704.htm",
+      "title": "关于2026年记账式附息（十六期）国债第五次续发行工作有关事宜的通知",
+      "doc_number": "财办债〔2026〕221号",
+      "citation_count": 1,
+      "counts": {
+        "total": 3,
+        "passed": 1,
+        "blocked": 0,
+        "pending": 2
+      },
+      "blocked_ids": [],
+      "pending_ids": [
+        "c0"
+      ],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:ndrc:https://www.ndrc.gov.cn/xwdt/tzgg/202603/t20260317_1404182.html",
+      "title": "国家发展和改革委员会直属单位2026年度第二批公开招聘公告",
+      "doc_number": null,
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:ndrc:https://www.ndrc.gov.cn/xwdt/tzgg/202603/t20260327_1404398.html",
+      "title": "关于优化完善无线电频率占用费标准的通知",
+      "doc_number": "发改价格〔2026〕413号",
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:ndrc:https://www.ndrc.gov.cn/xwdt/tzgg/202604/t20260403_1404510.html",
+      "title": "关于印发《全国公共信用信息基础目录(2026年版)》和《全国失信惩戒措施基础清单(2026年版)》的通知",
+      "doc_number": "发改财金〔2026〕447号",
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:ndrc:https://www.ndrc.gov.cn/xwdt/tzgg/202604/t20260409_1404582.html",
+      "title": "关于做好2026年享受税收优惠政策的集成电路企业或项目、软件企业清单制定工作的通知",
+      "doc_number": "发改高技〔2026〕487号",
+      "citation_count": 1,
+      "counts": {
+        "total": 3,
+        "passed": 1,
+        "blocked": 0,
+        "pending": 2
+      },
+      "blocked_ids": [],
+      "pending_ids": [
+        "c0"
+      ],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:ndrc:https://www.ndrc.gov.cn/xwdt/tzgg/202604/t20260409_1404594.html",
+      "title": "国家发展改革委地区振兴司2026年度研究课题征集公告",
+      "doc_number": null,
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:ndrc:https://www.ndrc.gov.cn/xwdt/tzgg/202604/t20260410_1404611.html",
+      "title": "国家发展改革委发展战略和规划司2026年第一批研究课题征集公告",
+      "doc_number": null,
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:ndrc:https://www.ndrc.gov.cn/xwdt/tzgg/202604/t20260413_1404644.html",
+      "title": "2026年度国家发展改革委国际合作司研究课题征集公告",
+      "doc_number": null,
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:ndrc:https://www.ndrc.gov.cn/xwdt/tzgg/202604/t20260413_1404646.html",
+      "title": "国家发展改革委国民经济综合司2026年度研究课题征集公告",
+      "doc_number": null,
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:ndrc:https://www.ndrc.gov.cn/xwdt/tzgg/202604/t20260414_1404677.html",
+      "title": "国家发展改革委民营经济发展局2026年度研究课题征集公告",
+      "doc_number": null,
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:ndrc:https://www.ndrc.gov.cn/xwdt/tzgg/202604/t20260415_1404690.html",
+      "title": "国家发展改革委农村经济司课题委托研究征集公告",
+      "doc_number": null,
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:ndrc:https://www.ndrc.gov.cn/xwdt/tzgg/202604/t20260415_1404696.html",
+      "title": "国家发展改革委固定资产投资司2026年度研究课题征集公告",
+      "doc_number": null,
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:ndrc:https://www.ndrc.gov.cn/xwdt/tzgg/202604/t20260415_1404720.html",
+      "title": "国家发展改革委区域协调发展司2026年度研究课题征集公告",
+      "doc_number": null,
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:ndrc:https://www.ndrc.gov.cn/xwdt/tzgg/202604/t20260416_1404717.html",
+      "title": "国家发展改革委社会发展司2026年度研究课题征集公告",
+      "doc_number": null,
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:ndrc:https://www.ndrc.gov.cn/xwdt/tzgg/202604/t20260416_1404724.html",
+      "title": "国家发展改革委体制改革综合司2026年研究课题征集公告",
+      "doc_number": null,
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:ndrc:https://www.ndrc.gov.cn/xwdt/tzgg/202604/t20260416_1404726.html",
+      "title": "国家发展改革委就业收入分配和消费司2026年度研究课题征集公告",
+      "doc_number": null,
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:ndrc:https://www.ndrc.gov.cn/xwdt/tzgg/202604/t20260417_1404748.html",
+      "title": "2026年度国家发展改革委财政金融和信用建设司课题委托研究征集公告",
+      "doc_number": null,
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:ndrc:https://www.ndrc.gov.cn/xwdt/tzgg/202604/t20260422_1404817.html",
+      "title": "国家发展改革委经济运行调节局2026年度研究课题征集公告",
+      "doc_number": null,
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:ndrc:https://www.ndrc.gov.cn/xwdt/tzgg/202604/t20260424_1404879.html",
+      "title": "关于修订省间电力现货交易规则的复函",
+      "doc_number": "发改办体改〔2026〕275号",
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:ndrc:https://www.ndrc.gov.cn/xwdt/tzgg/202604/t20260427_1404893.html",
+      "title": "关于印发《西藏生态安全屏障保护与建设规划(修编)》的通知",
+      "doc_number": "发改农经〔2026〕508号",
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:ndrc:https://www.ndrc.gov.cn/xwdt/tzgg/202605/t20260508_1405105.html",
+      "title": "国家发展改革委发布《中国营商环境发展报告（2026）》",
+      "doc_number": null,
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:ndrc:https://www.ndrc.gov.cn/xwdt/tzgg/202605/t20260509_1405134.html",
+      "title": "国家发展改革委低空经济发展司2026年研究课题征集公告",
+      "doc_number": null,
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:ndrc:https://www.ndrc.gov.cn/xwdt/tzgg/202605/t20260511_1405153.html",
+      "title": "关于核定南水北调中线干线工程供水价格的通知",
+      "doc_number": "发改价格〔2026〕630号",
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:ndrc:https://www.ndrc.gov.cn/xwdt/tzgg/202605/t20260511_1405155.html",
+      "title": "国家发展改革委发展战略和规划司研究课题征集公告",
+      "doc_number": null,
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:ndrc:https://www.ndrc.gov.cn/xwdt/tzgg/202605/t20260512_1405164.html",
+      "title": "国家发展改革委2026年度拟录用人员公示公告",
+      "doc_number": null,
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:ndrc:https://www.ndrc.gov.cn/xwdt/tzgg/202605/t20260513_1405190.html",
+      "title": "国家发展改革委社会发展司关于确定2026年度研究课题承研单位的公告",
+      "doc_number": null,
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:ndrc:https://www.ndrc.gov.cn/xwdt/tzgg/202605/t20260518_1405257.html",
+      "title": "国家发展改革委民营经济发展局关于2026年度研究课题入选单位的公告",
+      "doc_number": null,
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:ndrc:https://www.ndrc.gov.cn/xwdt/tzgg/202605/t20260519_1405306.html",
+      "title": "关于印发“法治护航民营经济”行动方案的通知",
+      "doc_number": "发改民营〔2026〕637号",
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:ndrc:https://www.ndrc.gov.cn/xwdt/tzgg/202605/t20260520_1405314.html",
+      "title": "关于有序推动多用户绿电直连发展有关事项的通知",
+      "doc_number": "发改能源〔2026〕688号",
+      "citation_count": 1,
+      "counts": {
+        "total": 3,
+        "passed": 1,
+        "blocked": 0,
+        "pending": 2
+      },
+      "blocked_ids": [],
+      "pending_ids": [
+        "c0"
+      ],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:ndrc:https://www.ndrc.gov.cn/xwdt/tzgg/202605/t20260520_1405335.html",
+      "title": "关于开展2026年全国节能宣传周和全国低碳日活动的通知",
+      "doc_number": "发改环资〔2026〕664号",
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:ndrc:https://www.ndrc.gov.cn/xwdt/tzgg/202605/t20260522_1405367.html",
+      "title": "关于印发《推进生态综合补偿实施方案》的通知",
+      "doc_number": "发改振兴〔2026〕697号",
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:ndrc:https://www.ndrc.gov.cn/xwdt/tzgg/202605/t20260522_1405418.html",
+      "title": "国家发展改革委就业收入分配和消费司2026年度研究课题入选单位公告",
+      "doc_number": null,
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:ndrc:https://www.ndrc.gov.cn/xwdt/tzgg/202605/t20260525_1405458.html",
+      "title": "国家发展改革委经济运行调节局关于2026年度研究课题入选单位的公告",
+      "doc_number": null,
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:ndrc:https://www.ndrc.gov.cn/xwdt/tzgg/202605/t20260525_1405461.html",
+      "title": "关于2026—2028年棉花目标价格政策的通知",
+      "doc_number": "发改价格〔2026〕733号",
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:ndrc:https://www.ndrc.gov.cn/xwdt/tzgg/202605/t20260526_1405475.html",
+      "title": "国家发展改革委国民经济综合司关于2026年度研究课题入选单位的公告",
+      "doc_number": null,
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:ndrc:https://www.ndrc.gov.cn/xwdt/tzgg/202605/t20260528_1405519.html",
+      "title": "关于印发贯彻实施民营经济促进法典型案例(第一批)的通知",
+      "doc_number": "发改民营〔2026〕708号",
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:ndrc:https://www.ndrc.gov.cn/xwdt/tzgg/202606/t20260601_1405631.html",
+      "title": "关于印发《非化石能源电力消费核算指南(试行)》的通知",
+      "doc_number": "发改能源〔2026〕622号",
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:ndrc:https://www.ndrc.gov.cn/xwdt/tzgg/202606/t20260602_1405635.html",
+      "title": "关于2025年企业技术中心运行评价结果的公示",
+      "doc_number": "发改办高技〔2025〕895号",
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:ndrc:https://www.ndrc.gov.cn/xwdt/tzgg/202606/t20260602_1405668.html",
+      "title": "关于在云霄直流开展输电权市场化交易的通知",
+      "doc_number": "发改体改〔2026〕734号",
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:ndrc:https://www.ndrc.gov.cn/xwdt/tzgg/202606/t20260605_1405708.html",
+      "title": "关于总结推广上海浦东新区、深圳、厦门综合改革试点创新举措和经验做法的通知",
+      "doc_number": "发改体改〔2026〕695号",
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:ndrc:https://www.ndrc.gov.cn/xwdt/tzgg/202606/t20260605_1405716.html",
+      "title": "国家发展改革委发展战略和规划司研究课题入选公告",
+      "doc_number": null,
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:ndrc:https://www.ndrc.gov.cn/xwdt/tzgg/202606/t20260608_1405756.html",
+      "title": "关于印发《生态保护修复领域中央预算内投资专项管理办法》的通知",
+      "doc_number": "发改农经〔2026〕713号",
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:ndrc:https://www.ndrc.gov.cn/xwdt/tzgg/202606/t20260615_1405854.html",
+      "title": "关于开展重点行业节能降碳改造攻坚三年行动的通知",
+      "doc_number": "发改环资〔2026〕698号",
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:ndrc:https://www.ndrc.gov.cn/xwdt/tzgg/202606/t20260625_1406081.html",
+      "title": "关于印发《新型能源体系建设“十五五”规划》的通知",
+      "doc_number": "发改能源〔2026〕884号",
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:ndrc:https://www.ndrc.gov.cn/xwdt/tzgg/202607/t20260710_1406433.html",
+      "title": "关于第四监管周期省级电网输配电价、区域电网输电价格及有关事项的通知",
+      "doc_number": "发改价格〔2026〕1077号",
+      "citation_count": 1,
+      "counts": {
+        "total": 3,
+        "passed": 1,
+        "blocked": 0,
+        "pending": 2
+      },
+      "blocked_ids": [],
+      "pending_ids": [
+        "c0"
+      ],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:ndrc:https://www.ndrc.gov.cn/xwdt/tzgg/202607/t20260716_1406549.html",
+      "title": "关于印发《海水淡化产业发展行动方案》的通知",
+      "doc_number": "发改环资〔2026〕1062号",
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:ndrc:https://www.ndrc.gov.cn/xwdt/tzgg/202607/t20260722_1406625.html",
+      "title": "关于印发贯彻实施民营经济促进法典型案例(第二批)的通知",
+      "doc_number": "发改民营〔2026〕1093号",
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:ndrc:https://www.ndrc.gov.cn/xwdt/tzgg/202607/t20260722_1406637.html",
+      "title": "关于第五批全国社会信用体系建设示范区名单的公示",
+      "doc_number": null,
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:ndrc:https://www.ndrc.gov.cn/xwdt/tzgg/202607/t20260723_1406643.html",
+      "title": "关于印发《可再生能源发展“十五五”规划》的通知",
+      "doc_number": "发改能源〔2026〕1067号",
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:ndrc:https://www.ndrc.gov.cn/xwdt/tzgg/202607/t20260724_1406671.html",
+      "title": "国家发展改革委体制改革综合司关于研究课题入选单位的公告",
+      "doc_number": null,
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:ndrc:https://www.ndrc.gov.cn/xwdt/tzgg/202608/t20260803_1406881.html",
+      "title": "关于开展2026年全国生态日活动的通知",
+      "doc_number": "发改办环资〔2026〕520号",
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:ndrc:https://www.ndrc.gov.cn/xwdt/tzgg/202608/t20260803_1406884.html",
+      "title": "关于印发《新型电力系统建设“十五五”规划》的通知",
+      "doc_number": "发改能源〔2026〕942号",
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:ndrc:https://www.ndrc.gov.cn/xwdt/tzgg/202608/t20260804_1406895.html",
+      "title": "2026年全国生态日标识、招贴画等宣传素材",
+      "doc_number": null,
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:ndrc:https://www.ndrc.gov.cn/xwdt/tzgg/202608/t20260810_1406954.html",
+      "title": "关于印发《煤炭工业发展“十五五”规划》的通知",
+      "doc_number": "发改能源〔2026〕979号",
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:ndrc:https://www.ndrc.gov.cn/xwdt/tzgg/202608/t20260817_1407042.html",
+      "title": "关于印发《石油天然气发展“十五五”规划》的通知",
+      "doc_number": "发改能源〔2026〕1055号",
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:ndrc:https://www.ndrc.gov.cn/xwdt/tzgg/202608/t20260820_1407095.html",
+      "title": "关于印发第五批全国社会信用体系建设示范区名单的通知",
+      "doc_number": "发改办财金〔2026〕589号",
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:ndrc:https://www.ndrc.gov.cn/xwdt/tzgg/202608/t20260820_1407104.html",
+      "title": "国家发展改革委发展战略和规划司研究课题征集公告",
+      "doc_number": null,
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:ndrc:https://www.ndrc.gov.cn/xwdt/tzgg/202608/t20260828_1407234.html",
+      "title": "关于印发《物流网建设实施方案》的通知",
+      "doc_number": "发改经贸〔2026〕1241号",
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:ndrc:https://www.ndrc.gov.cn/xwdt/tzgg/202609/t20260910_1407525.html",
+      "title": "关于重要工业品低价无序竞争成本核算有关事项的通知",
+      "doc_number": "发改价格〔2026〕1303号",
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:ndrc:https://www.ndrc.gov.cn/xwdt/tzgg/202609/t20260914_1407622.html",
+      "title": "国家发展改革委发展战略和规划司研究课题入选公告",
+      "doc_number": null,
+      "citation_count": 0,
+      "counts": {
+        "total": 0,
+        "passed": 0,
+        "blocked": 0,
+        "pending": 0
+      },
+      "blocked_ids": [],
+      "pending_ids": [],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    },
+    {
+      "doc_id": "gov:ndrc:https://www.ndrc.gov.cn/xwdt/tzgg/202609/t20260921_1407757.html",
+      "title": "关于印发浙江高质量发展建设共同富裕示范区经验做法(第三批)的通知",
+      "doc_number": "发改办就业〔2026〕610号",
+      "citation_count": 1,
+      "counts": {
+        "total": 3,
+        "passed": 1,
+        "blocked": 0,
+        "pending": 2
+      },
+      "blocked_ids": [],
+      "pending_ids": [
+        "c0"
+      ],
+      "matches_legacy": true,
+      "enforce_would_change": false
+    }
+  ]
+}

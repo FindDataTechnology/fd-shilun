@@ -1,0 +1,86 @@
+# 中文文献开放元数据兜底：真实冒烟记录（2026-10-21）
+
+对应 change `add-chinese-open-metadata-fallback` 任务 5.2。机器可读明细见
+`cn-open-metadata-smoke-2026-10-21.json`（同目录）。
+
+## 条件
+
+- `FD_SHILUN_CN_CHANNELS` 未设置（**没有**任何授权通道），`WANFANG_API_KEY` 未设置；
+- `FD_SHILUN_CN_OPEN_FALLBACK` 未设置 → 兜底开关为**开**；
+- `FD_SHILUN_VERIFY_OFFLINE` 未设置 → 真实访问 api.crossref.org / api.openalex.org；
+- 直连（本机系统代理当时为关闭状态），每条查询 `per_page=5`。
+
+调用的是消费面函数 `search._chinese_lookup()`，与 `/api/v1/search/works` 中文
+分支同一条代码路径（只是绕过 HTTP/鉴权）。
+
+## 结果
+
+| 查询 | 命中 | 来源 | 耗时 | reason |
+| --- | --- | --- | --- | --- |
+| 乡村振兴战略下的县域治理 | 5 | crossref | 0.99s | — |
+| 财政分权与地方政府支出 | 5 | crossref | 1.10s | — |
+| 深度学习在医学影像中的应用 | 5 | crossref | 1.01s | — |
+| 民法典物权编的体系效应 | 4 | crossref | 0.96s | — |
+| 关于量子纠缠的县域治理研究（**故意无关**） | 0 | — | 2.10s | `not_indexed` |
+
+全部 5 条查询的结果都满足：`provenance.coverage=partial`、
+`provenance.metadata_only=true`、响应带 `coverage_note`，
+且响应体里**不出现** `no_authorized_channel`。
+
+## 覆盖率的实际观感（结论）
+
+**能查到真东西，但只能算「线索」不能算「查全」。** 具体三点：
+
+1. **命中的是真实中文期刊论文**，题名/期刊/年份都对得上（如「乡村振兴战略下
+   乡村建设的规划策略探究 / 建筑工程与管理 / 2020」）。做选题侦察、找参考文献
+   的入口是够用的。
+
+2. **`total` 完全不可信，不能当覆盖量。** Crossref 对中文查询是 OR 语义，
+   「乡村振兴战略下的县域治理」返回 `total=193494`，而真正相关的只有前几条。
+   响应里保留 `total` 是因为它来自上游原样透传，但**界面上不拿它当命中数**
+   （面板只显示结果列表）。
+
+3. **必须做相关性过滤，否则兜底等于噪声。** 第一版没有过滤时，「关于量子纠缠
+   的县域治理研究」这种明显无关的查询也会返回 5 篇量子物理论文——Crossref 的
+   OR 匹配永远有结果，`not_indexed` 因此永不可达。最终的相关性门是两档：
+
+   - **有汉字的记录**：查询二元组覆盖率 ≥ 0.3、至少命中 2 项，**且必须共享一个
+     三字术语**（物权编 / 乡村振兴 / 医学影像）。最后这条是关键——只撞「关于」
+     「研究」这类两字虚词的记录不算相关。
+   - **无汉字的记录**（英文题名等）：中英之间没有可比字符串，改用上游自己的
+     相关度分数 `score`，只有它 ≥「通过第一档的最佳记录分数 × 0.8」才留。
+     这样「民法典物权编的体系效应」能把两篇英文相关论文（The Influence of the
+     "Green Principle"…、On the Connection and Coordination…）一起带回来，
+     而无关查询因为一条汉字记录都过不了第一档、没有锚点，英文结果也不会被豁免。
+
+   效果：四条真实查询各有 4–5 条命中（含英文题名条目），无关查询返回 0 条并
+   如实报 `not_indexed`。
+
+   **另外必须先多取候选再过滤**（向源取 3×per_page，过滤后截断到 per_page）：
+   否则 `per_page` 小的时候「通过词面门的那条」可能没进候选，锚点消失导致整批
+   被判不相关（实测 `per_page=5` 时民法典查询一度返回 0 条）。
+
+   **剩余局限**：查询若把两个互不相关的主题并列（如「量子纠缠的县域治理」），
+   词面规则无法判断「两个主题都要覆盖」，只能靠语义切分/重排——那是另一个
+   变更的事。
+
+## 与授权通道的关系
+
+免费兜底解决的是「能不能查到一点」，不是「查得全」。未注册 DOI 的中文期刊、
+学位论文、会议论文仍然只有授权通道能覆盖——这正是 `deploy/COMPLIANCE.md`
+第 1 项签收标准仍然保留的原因。有授权的客户可按请求带自己的 key（BYOK），
+无需产品侧持久化任何厂商密钥。
+
+## 复现
+
+```bash
+cd fd-shilun/server
+unset FD_SHILUN_CN_CHANNELS WANFANG_API_KEY FD_SHILUN_VERIFY_OFFLINE
+python3 - <<'PY'
+import sys; sys.path.insert(0, ".")
+from fd_shilun_api import search as S
+for q in ["乡村振兴战略下的县域治理", "关于量子纠缠的县域治理研究"]:
+    d = S._chinese_lookup(q, 1, 5).model_dump(exclude_none=True)
+    print(q, len(d.get("results") or []), (d.get("coverage_note") or "")[:20])
+PY
+```

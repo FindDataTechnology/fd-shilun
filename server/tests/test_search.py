@@ -173,7 +173,9 @@ def test_doi_not_indexed(monkeypatch) -> None:
 
 def test_query_no_hits_is_not_indexed(monkeypatch) -> None:
     _patch_get(monkeypatch, payload=RAW_EMPTY_PAYLOAD)
-    resp = _make_client().post("/api/v1/search/works", json={"query": "zzz不存在的话题"})
+    # 非中文 query：走 OpenAlex 默认通道（中文 query 按 spec 改走授权通道，
+    # 见 tests/test_channels.py）
+    resp = _make_client().post("/api/v1/search/works", json={"query": "zzz nonexistent topic"})
     body = resp.json()
     assert body["results"] == [] and body["total"] == 0
     assert body["reason"] == "not_indexed"

@@ -1,4 +1,4 @@
-"""论文检索消费面（task 2.1/2.2）：OpenAlex 通道，经 fd-open-data-protocol。
+"""论文检索消费面（task 2.1-2.3）：OpenAlex 默认通道 + 中文授权通道。
 
 行为契约（spec shilun-serious-writing「论文检索」）：
 - POST /api/v1/search/works，body 为 {"query": ...}（标题/关键词检索，
@@ -6,11 +6,19 @@
 - 返回结构化结果列表（标识/标题/发表年/来源/被引数），每条带 provenance
   （source="openalex"，stable_id=OpenAlex work id，license=CC0）。
 - 空结果必带 reason，不得静默为空：
-    quota        配额/限流（OpenAlexQuotaExceeded）
-    upstream     上游异常（OpenAlexUnavailable，含 5xx）
-    unreachable  网络不可达（逃逸出 provider 的 httpx 超时/连接错误等）
-    not_indexed  正常无命中（含 DOI 未收录——未收录 ≠ 作品不存在）
+    quota                  配额/限流（OpenAlexQuotaExceeded）
+    upstream               上游异常（OpenAlexUnavailable，含 5xx）
+    unreachable            网络不可达（逃逸出 provider 的 httpx 超时/连接错误等）
+    not_indexed            正常无命中（含 DOI 未收录——未收录 ≠ 作品不存在）
+    no_authorized_channel  仅在关闭兜底开关（回滚档）时由中文检索产生
 - 分页 page/per_page（默认 1/10，per_page 上限 25）原生透传给 OpenAlex。
+
+中文文献：query 含汉字时先走 channels.py 的授权通道（不得用浏览器自动化抓
+商业库）；无可用通道或通道无命中则走开放元数据兜底（Crossref → OpenAlex），
+逐条标注 coverage=partial / metadata_only=true，响应附 coverage_note。原因码
+no_authorized_channel 只保留给需要原文全文的能力，不再由关键词检索产生
+（FD_SHILUN_CN_OPEN_FALLBACK 关闭时例外，用于回滚）。
+DOI 查询不受影响——DOI 永远走 OpenAlex 精确取。
 
 铁律：不自研 HTTP 抓 OpenAlex——一律走 fd_open_data_protocol 的
 OpenAlexProvider（复用其 UA/超时/失败语义），本模块只做薄封装与口径映射。
@@ -22,12 +30,15 @@ OpenAlexProvider（复用其 UA/超时/失败语义），本模块只做薄封�
 
 from __future__ import annotations
 
-from typing import Literal
+import os
+from typing import Any, Literal, Sequence
 
 from fastapi import APIRouter, Depends
-from pydantic import BaseModel, Field, model_validator
+from pydantic import BaseModel, Field, model_serializer, model_validator
 
 from .auth import require_user
+from .channels import SearchChannel, search_chinese
+from .open_metadata import search_open_metadata
 
 try:  # 协议包缺失时让 ImportError 在启动期显式暴露，而不是静默降级
     from fd_open_data_protocol.openalex_provider import (
@@ -43,7 +54,28 @@ except ImportError as _exc:  # pragma: no cover - 环境问题，提示安装路
 
 router = APIRouter(prefix="/api/v1/search", tags=["paper-search"])
 
-Reason = Literal["quota", "upstream", "unreachable", "not_indexed"]
+Reason = Literal[
+    "quota", "upstream", "unreachable", "not_indexed", "no_authorized_channel"
+]
+
+# 开放元数据兜底开关：默认开（未配置商业通道时中文检索仍有元数据可用）。
+# 设为 0/false/off 回到旧口径（中文仅经授权通道 → no_authorized_channel），用于回滚。
+CN_OPEN_FALLBACK_ENV = "FD_SHILUN_CN_OPEN_FALLBACK"
+
+# 中文文献判定：query 含汉字即视为中文文献检索（spec：中文文献仅经授权通道）。
+# 覆盖 CJK 统一表意文字、扩展 A、兼容表意文字与扩展 B-F；日文汉字同属 CJK，
+# 同样走授权通道，合规边界不因语种细分而放宽。
+_CJK_RANGES: tuple[tuple[int, int], ...] = (
+    (0x3400, 0x4DBF),
+    (0x4E00, 0x9FFF),
+    (0xF900, 0xFAFF),
+    (0x20000, 0x2FA1F),
+)
+
+
+def _has_cjk(text: str) -> bool:
+    return any(lo <= ord(ch) <= hi for ch in text for lo, hi in _CJK_RANGES)
+
 
 # provider 把自己的 urllib 网络错误归一成了 OpenAlexUnavailable（→upstream）；
 # 这里只兜「逃逸出 provider」的网络类异常（httpx 超时/连接错误等）→unreachable。
@@ -118,12 +150,17 @@ def _new_provider() -> OpenAlexProvider:
 # ------------------------------------------------------------------ models
 
 class WorksRequest(BaseModel):
-    """检索请求：query 与 doi 二选一。"""
+    """检索请求：query 与 doi 二选一。
+
+    `channel_credentials` 是使用者自备的授权通道凭据（BYOK），键为通道 id。
+    走 TLS 传输；服务端只在本次调用内使用，不持久化、不写日志、不回显。
+    """
 
     query: str | None = Field(default=None, max_length=512)
     doi: str | None = Field(default=None, max_length=512)
     page: int = Field(default=1, ge=1)
     per_page: int = Field(default=10, ge=1, le=25)
+    channel_credentials: dict[str, str] | None = Field(default=None, repr=False)
 
     @model_validator(mode="after")
     def _exactly_one_key(self) -> "WorksRequest":
@@ -134,10 +171,38 @@ class WorksRequest(BaseModel):
         return self
 
 
+class Authorization(BaseModel):
+    """授权依据（机器可读）：哪个通道、依据什么授权。"""
+
+    channel: str
+    basis: str
+
+
 class Provenance(BaseModel):
     source: str = "openalex"
     stable_id: str
     license: str = "CC0"
+    # 仅中文授权通道填充；OpenAlex 路径保持 None，既有响应照旧通过校验。
+    authorization: Authorization | None = None
+    # 覆盖度：full=该源声称完整；partial=已知不完整（开放元数据兜底中文检索）。
+    # 仅在非 full 时出现——OpenAlex 主路径不写，响应与改动前逐字节一致。
+    coverage: Literal["partial"] | None = None
+    # 只有元数据、没有原文：中文兜底路径恒为 True，提醒调用方别把它当已核验。
+    metadata_only: bool | None = None
+
+    @model_serializer(mode="wrap")
+    def _omit_absent_authorization(self, handler):  # noqa: ANN001
+        data = handler(self)
+        if not isinstance(data, dict):
+            return data
+        # 未授权时连空字段都不出现：OpenAlex 响应与改动前逐字节一致
+        if data.get("authorization") is None:
+            data.pop("authorization", None)
+        for key in ("coverage", "metadata_only"):
+            if data.get(key) is None:
+                data.pop(key, None)
+        return data
+
 
 
 class WorkItem(BaseModel):
@@ -157,6 +222,15 @@ class WorksResponse(BaseModel):
     per_page: int = 10
     reason: Reason | None = None  # 空结果必带
     detail: str | None = None
+    # 覆盖度说明：中文兜底路径为「覆盖不完整」的整句提示；OpenAlex 主路径不写。
+    coverage_note: str | None = None
+
+    @model_serializer(mode="wrap")
+    def _omit_absent_coverage_note(self, handler):  # noqa: ANN001
+        data = handler(self)
+        if isinstance(data, dict) and data.get("coverage_note") is None:
+            data.pop("coverage_note", None)
+        return data
 
 
 # ------------------------------------------------------------------- core
@@ -189,6 +263,142 @@ def _item(row: dict) -> WorkItem:
         cited_by_count=row.get("cited_by_count"),
         provenance=Provenance(stable_id=work_id),
     )
+
+
+def _channel_item(row: dict, *, channel: str, basis: str) -> WorkItem:
+    """授权通道记录 → 既有 WorkItem 形状：schema 稳定，只多一个可选授权依据。"""
+    stable_id = str(row.get("stable_id") or "")
+    return WorkItem(
+        work_id=stable_id,
+        doi=row.get("doi"),
+        title=row.get("title"),
+        year=row.get("year"),
+        venue=row.get("venue"),
+        cited_by_count=None,  # 中文通道暂不提供被引数
+        provenance=Provenance(
+            source=channel,
+            stable_id=stable_id,
+            license=basis,  # 授权依据替代 OpenAlex 的 CC0 口径
+            authorization=Authorization(channel=channel, basis=basis),
+        ),
+    )
+
+
+COVERAGE_NOTE = (
+    "中文文献经开放元数据（Crossref/OpenAlex）检索，覆盖不完整："
+    "仅含已注册 DOI 或已被收录的条目，未收录的中文期刊与学位论文查不到。"
+    "配置授权通道可提升覆盖。"
+)
+
+
+def _open_fallback_enabled() -> bool:
+    """开放元数据兜底开关，默认开；显式设为 0/false/off 时回到「仅授权通道」。"""
+    raw = os.environ.get(CN_OPEN_FALLBACK_ENV, "").strip().lower()
+    return raw not in {"0", "false", "no", "off"}
+
+
+# 测试注入点：None 时由 open_metadata 自建 httpx.Client（生产路径）。
+_OPEN_METADATA_CLIENT: Any = None
+
+
+def _open_metadata_items(result) -> list[WorkItem]:
+    """开放元数据命中 → WorkItem，逐条标注 partial + metadata_only。"""
+    items: list[WorkItem] = []
+    for row in result.records:
+        stable_id = str(row.get("stable_id") or "")
+        items.append(
+            WorkItem(
+                work_id=stable_id,
+                doi=row.get("doi"),
+                title=row.get("title"),
+                year=row.get("year"),
+                venue=row.get("venue"),
+                cited_by_count=None,
+                provenance=Provenance(
+                    source=str(result.source or "open_metadata"),
+                    stable_id=stable_id,
+                    license="metadata-only",  # 只有元数据，不声称可读全文
+                    coverage="partial",
+                    metadata_only=True,
+                ),
+            )
+        )
+    return items
+
+
+def _chinese_lookup(
+    query: str,
+    page: int,
+    per_page: int,
+    channels: Sequence[SearchChannel] | None = None,
+    *,
+    credentials: dict[str, str] | None = None,
+) -> WorksResponse:
+    """中文文献检索：授权通道优先，未命中则开放元数据兜底（可开关关闭）。
+
+    口径（spec「论文检索」）：
+    - 授权通道命中 → 标注来源通道与授权依据，覆盖度按通道自述（不标 partial）；
+    - 无可用通道或通道无命中 → 走开放元数据，结果标 coverage=partial、
+      metadata_only=true，响应带 coverage_note；
+    - 仍然无命中 → reason=not_indexed（附覆盖说明），**不返回**
+      no_authorized_channel——那是全文级能力的原因码。
+    """
+    data = search_chinese(
+        query, page=page, per_page=per_page, channels=channels, credentials=credentials
+    )
+    channel = str(data.get("channel") or "")
+    basis = str(data.get("authorization_basis") or "")
+    items = [
+        _channel_item(row, channel=channel, basis=basis)
+        for row in data.get("records") or []
+    ]
+    if items:
+        return WorksResponse(results=items, total=data.get("total"), page=page, per_page=per_page)
+
+    channel_reason = str(data.get("reason") or "not_indexed")
+    channel_detail = str(data.get("detail") or "")
+
+    if not _open_fallback_enabled():
+        # 关闭兜底 = 回到旧口径（中文仅经授权通道），便于回滚
+        reason = "no_authorized_channel" if channel_reason == "no_authorized_channel" else channel_reason
+        return _empty(
+            reason=reason,  # type: ignore[arg-type]
+            detail=channel_detail or "中文文献无命中",
+            page=page,
+            per_page=per_page,
+            total=data.get("total"),
+        )
+
+    fallback = search_open_metadata(
+        query, page=page, per_page=per_page, client=_OPEN_METADATA_CLIENT
+    )
+    open_items = _open_metadata_items(fallback)
+    if open_items:
+        return WorksResponse(
+            results=open_items,
+            total=fallback.total,
+            page=page,
+            per_page=per_page,
+            coverage_note=COVERAGE_NOTE,
+        )
+
+    # 都查不到：把「授权通道为什么没给结果」与「开放元数据为什么没给结果」一起说清
+    detail = "；".join(
+        part
+        for part in (
+            f"授权通道：{channel_detail}" if channel_detail else "",
+            f"开放元数据：{fallback.detail}" if fallback.detail else "",
+        )
+        if part
+    )
+    return _empty(
+        reason="not_indexed",
+        detail=f"{detail or '中文文献无命中'}（中文文献覆盖不完整）",
+        page=page,
+        per_page=per_page,
+        total=fallback.total,
+    )
+
 
 
 def _doi_lookup(provider: OpenAlexProvider, doi: str) -> WorksResponse:
@@ -265,14 +475,27 @@ def search_works(
     doi: str | None = None,
     page: int = 1,
     per_page: int = 10,
+    channels: Sequence[SearchChannel] | None = None,
+    credentials: dict[str, str] | None = None,
 ) -> WorksResponse:
-    """检索核心（无鉴权层，路由与真实验收脚本共用入口）。"""
+    """检索核心（无鉴权层，路由与真实验收脚本共用入口）。
+
+    channels 仅供测试/演示注入中文授权适配器；None 时按
+    FD_SHILUN_CN_CHANNELS 现读配置。
+    credentials 是使用者自备的通道凭据（BYOK，优先级高于环境变量）；
+    只在本次调用内使用，不落库、不进日志、不回显。
+    """
     page = max(int(page), 1)
     per_page = min(max(int(per_page), 1), 25)
-    provider = _new_provider()
-    if (doi or "").strip():
-        return _doi_lookup(provider, _normalize_doi(doi))
-    return _query_lookup(provider, (query or "").strip(), page, per_page)
+    doi = (doi or "").strip()
+    if doi:  # DOI 精确取不受中文分流影响：DOI 一定走 OpenAlex
+        return _doi_lookup(_new_provider(), _normalize_doi(doi))
+    text = (query or "").strip()
+    if _has_cjk(text):
+        # 中文文献：授权通道优先，未命中则开放元数据兜底（spec「论文检索」）。
+        return _chinese_lookup(text, page, per_page, channels, credentials=credentials)
+    return _query_lookup(_new_provider(), text, page, per_page)
+
 
 
 # ------------------------------------------------------------------- route
@@ -280,4 +503,10 @@ def search_works(
 @router.post("/works", response_model=WorksResponse)
 def works(body: WorksRequest, user_id: str = Depends(require_user)) -> WorksResponse:
     """论文检索：query（标题/关键词）或 doi（精确取）。空结果必带 reason。"""
-    return search_works(query=body.query, doi=body.doi, page=body.page, per_page=body.per_page)
+    return search_works(
+        query=body.query,
+        doi=body.doi,
+        page=body.page,
+        per_page=body.per_page,
+        credentials=body.channel_credentials,
+    )
