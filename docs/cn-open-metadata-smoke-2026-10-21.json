@@ -11,7 +11,7 @@
     "coverage_note": "中文文献经开放元数据（Crossref/OpenAlex）检索，覆盖不完整：仅含",
     "detail": null,
     "forbidden_reason_present": false,
-    "seconds": 0.99,
+    "seconds": 1.01,
     "titles": [
       "乡村振兴战略下乡村建设的规划策略探究",
       "乡村振兴战略下旬邑县乡村旅游发展研究",
@@ -21,26 +21,26 @@
   {
     "query": "财政分权与地方政府支出",
     "hits": 5,
-    "total": 133673,
+    "total": 10621,
     "sources": [
-      "crossref"
+      "openalex"
     ],
     "all_partial_metadata_only": true,
     "reason": null,
     "coverage_note": "中文文献经开放元数据（Crossref/OpenAlex）检索，覆盖不完整：仅含",
     "detail": null,
     "forbidden_reason_present": false,
-    "seconds": 1.1,
+    "seconds": 2.03,
     "titles": [
-      "基于LDA模型的地方政府工作报告政策组合分析",
-      "Tax Sharing and the Scale of Local Government Expenditure",
-      "财政监督对防范地方政府债务风险的分析"
+      "财政分权下地方政府三大“支出偏好”与经济绩效研究",
+      "财政分权与地方政府社会保障支出——基于2003-2010年省级面板数据",
+      "政治晋升、财政分权与地方政府消费性支出:理论与实证分析"
     ]
   },
   {
     "query": "深度学习在医学影像中的应用",
     "hits": 5,
-    "total": 680132,
+    "total": 680135,
     "sources": [
       "crossref"
     ],
@@ -49,17 +49,17 @@
     "coverage_note": "中文文献经开放元数据（Crossref/OpenAlex）检索，覆盖不完整：仅含",
     "detail": null,
     "forbidden_reason_present": false,
-    "seconds": 1.01,
+    "seconds": 0.85,
     "titles": [
       "基于深度学习的头颅侧位片分析在正畸中的应用",
-      "医学影像技术在医学影像诊断中的临床应用探析",
-      "深度学习在图像预处理中的应用"
+      "深度学习在图像预处理中的应用",
+      "基于深度学习的医学图像合成：方法、应用与未来方向"
     ]
   },
   {
     "query": "民法典物权编的体系效应",
-    "hits": 4,
-    "total": 268445,
+    "hits": 3,
+    "total": 268447,
     "sources": [
       "crossref"
     ],
@@ -68,7 +68,7 @@
     "coverage_note": "中文文献经开放元数据（Crossref/OpenAlex）检索，覆盖不完整：仅含",
     "detail": null,
     "forbidden_reason_present": false,
-    "seconds": 0.96,
+    "seconds": 0.85,
     "titles": [
       "民法中诚信原则在物权编的体现",
       "The Influence of the “Green Principle” in the “Civil Code” on China’s Legal System—Taking “Property Law” as an Example",
@@ -85,7 +85,7 @@
     "coverage_note": null,
     "detail": "授权通道：未配置 FD_SHILUN_CN_CHANNELS（无已授权的合规中文文献通道）；开放元数据：crossref: Crossref 查询失败（quota）；openalex: OpenAlex 无相关命中（已过滤 15 条弱相关）",
     "forbidden_reason_present": false,
-    "seconds": 2.1,
+    "seconds": 2.02,
     "titles": []
   }
 ]

@@ -270,6 +270,28 @@ def test_relevance_gate_requires_a_shared_three_char_term() -> None:
     assert kept == []
 
 
+def test_relevance_gate_needs_proportional_three_char_coverage() -> None:
+    """只顺带提到一个三字术语不算相关——要按比例覆盖整条查询。"""
+    junk = {
+        "title": "关于《生物量子体》的研究报告",
+        "venue": "实用医学研究",
+        "score": 58.8,
+        "abstract": (
+            "量子物理学中，具有同源性的两个量子体，在信息传递上是不需要信息的"
+            "发射与接收过程的。量子力学中不能表示成直积形式的态称为纠缠态。"
+        ),
+    }
+    relevant = {
+        "title": "民法中诚信原则在物权编的体现", "venue": None, "score": 60.4, "abstract": None,
+    }
+    kept, dropped = om._filter_relevant([dict(junk), dict(relevant)], "关于量子纠缠的县域治理研究")
+    assert kept == [] and dropped == 2  # 两个主题并列且无文献覆盖时不硬凑结果
+
+    kept, dropped = om._filter_relevant([dict(junk), dict(relevant)], "民法典物权编的体系效应")
+    assert [r["title"] for r in kept] == ["民法中诚信原则在物权编的体现"]
+    assert dropped == 1
+
+
 # --------------------------------------------- OpenAlex 主路径响应逐字节不变
 
 GOLDEN_OPENALEX_RESPONSE = (
