@@ -37,6 +37,7 @@ from fastapi import APIRouter, Depends
 from pydantic import BaseModel, Field, model_serializer, model_validator
 
 from .auth import require_user
+from . import llm
 from .channels import SearchChannel, search_chinese
 from .open_metadata import search_open_metadata
 
@@ -297,6 +298,46 @@ def _open_fallback_enabled() -> bool:
     return raw not in {"0", "false", "no", "off"}
 
 
+COVERAGE_NOTE_CROSSLINGUAL = (
+    COVERAGE_NOTE + "本次中文题名无命中，已自动用英文检索词补充检索。"
+)
+
+
+def _translated_query(query: str) -> str | None:
+    """中文检索词 → 英文检索词（跨语言补齐，LLM 增强）。
+
+    只在该主题的中文题名一条都没命中时才调用：有些主题的文献全部著录为英文
+    题名，词面比对没有可比的字符，唯一办法是换一个语言的检索词重查。
+
+    未配置网关 → None；调用失败 → None。两条都让调用方继续走原来的确定性
+    路径，因此**没配 LLM 时行为与之前完全一致**。
+    """
+    if not llm.is_configured():
+        return None
+    try:
+        out = llm.chat(
+            [
+                {
+                    "role": "system",
+                    "content": (
+                        "把中文文献检索词翻译成等价的英文文献检索词。"
+                        "只输出检索词本身，一行，不要解释、不要引号、不要编号。"
+                    ),
+                },
+                {"role": "user", "content": query},
+            ],
+            temperature=0,
+            max_tokens=64,
+        )
+    except llm.LLMError:
+        return None
+    text = (out or "").strip().strip('"').strip()
+    # 译文必须真的换了语言，否则再查一遍只是白花一次调用
+    if not text or _has_cjk(text) or not any(ch.isalpha() for ch in text):
+        return None
+    return text[:200]
+
+
 # 测试注入点：None 时由 open_metadata 自建 httpx.Client（生产路径）。
 _OPEN_METADATA_CLIENT: Any = None
 
@@ -382,12 +423,31 @@ def _chinese_lookup(
             coverage_note=COVERAGE_NOTE,
         )
 
+    # 中文题名零命中：可能该主题的文献全著录为英文题名，换检索词再试一次
+    translated = _translated_query(query)
+    cross_detail = ""
+    if translated:
+        retry = search_open_metadata(
+            translated, page=page, per_page=per_page, client=_OPEN_METADATA_CLIENT
+        )
+        retry_items = _open_metadata_items(retry)
+        if retry_items:
+            return WorksResponse(
+                results=retry_items,
+                total=retry.total,
+                page=page,
+                per_page=per_page,
+                coverage_note=COVERAGE_NOTE_CROSSLINGUAL,
+            )
+        cross_detail = f"英文检索词 {translated!r} 亦无命中"
+
     # 都查不到：把「授权通道为什么没给结果」与「开放元数据为什么没给结果」一起说清
     detail = "；".join(
         part
         for part in (
             f"授权通道：{channel_detail}" if channel_detail else "",
             f"开放元数据：{fallback.detail}" if fallback.detail else "",
+            cross_detail,
         )
         if part
     )

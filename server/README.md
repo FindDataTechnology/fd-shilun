@@ -46,7 +46,10 @@ python3 scripts/rollback_drill.py    # PASS 才切 enforce
    → OpenAlex `search`），每条结果标 `coverage=partial`、`metadata_only=true`，
    响应附 `coverage_note` 说明覆盖不完整。免费、无需密钥，但只含已注册 DOI
    或已被收录的条目，未收录的中文期刊与学位论文查不到。
-3. **两者都无命中** → 空结果 + `reason=not_indexed`，`detail` 注明覆盖不完整。
+3. **中文题名零命中**且配置了 LLM 网关 → 自动用英文检索词再查一次（该主题的
+   文献可能全著录为英文题名），命中即返回并在 `coverage_note` 里说明「已自动用
+   英文检索词补充检索」。**未配置网关时不发生**，行为与之前完全一致。
+4. **两者都无命中** → 空结果 + `reason=not_indexed`，`detail` 注明覆盖不完整。
 
 `reason=no_authorized_channel` **不再由关键词检索产生**，它只保留给需要原文
 全文的能力（引用核验三级「支持」拿不到全文时标待核）。

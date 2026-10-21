@@ -410,3 +410,133 @@ def test_channel_config_never_carries_a_key_value(monkeypatch) -> None:
 
 if __name__ == "__main__":  # pragma: no cover
     raise SystemExit(pytest.main([__file__, "-q"]))
+
+
+# ----------------------------------------------- 跨语言补齐（LLM 增强，可降级）
+
+CROSS_QUERY = "关于量子纠缠的县域治理研究"
+
+
+def _no_llm(monkeypatch) -> None:
+    monkeypatch.delenv("FD_SHILUN_LLM_API_KEY", raising=False)
+
+
+def test_no_llm_key_keeps_deterministic_path(monkeypatch) -> None:
+    """没配网关 → 不翻译、不补查，行为与之前完全一致（deterministic）。"""
+    _no_llm(monkeypatch)
+    calls: list[str] = []
+
+    def fake_chat(*a, **k):  # noqa: ANN002, ANN003
+        calls.append("chat")
+        return "county governance"
+
+    monkeypatch.setattr(search_mod.llm, "chat", fake_chat)
+    monkeypatch.setattr(
+        search_mod,
+        "_OPEN_METADATA_CLIENT",
+        _client(lambda r: httpx.Response(200, json={"message": {"items": []}})),
+    )
+    body = _client_for_search().post("/api/v1/search/works", json={"query": CROSS_QUERY}).json()
+
+    assert calls == []  # 一次 LLM 调用都没发
+    assert body["reason"] == "not_indexed"
+
+
+def test_latin_query_is_judged_on_its_own_without_a_chinese_anchor() -> None:
+    """纯英文查询走独立分支：不因「没有汉字记录做锚点」被整批拒绝，也不整批放行。
+
+    回归锁定：两档判定原本以「通过词面门的汉字记录」为锚点，英文检索词进来后
+    一条都留不下（跨语言补齐因此形同虚设）。
+    """
+    good = {
+        "title": "County Governance and Quantum Entanglement",
+        "venue": None,
+        "abstract": None,
+        "score": 55.0,
+    }
+    junk = {"title": "A Study of Soil Microbiome in Rice Paddies", "venue": None, "abstract": None}
+    kept, dropped = om._filter_relevant(
+        [dict(good), dict(junk)], "county governance and quantum entanglement"
+    )
+    assert [r["title"] for r in kept] == ["County Governance and Quantum Entanglement"]
+    assert dropped == 1
+
+
+def test_cross_lingual_retry_runs_only_after_empty_chinese_hits(monkeypatch) -> None:
+    """中文零命中且配了网关 → 用英文检索词补查一次，命中即返回并说明已补查。"""
+    monkeypatch.setenv("FD_SHILUN_LLM_API_KEY", "test-key")
+    monkeypatch.setattr(
+        search_mod.llm, "chat", lambda *a, **k: "county governance and quantum entanglement"
+    )
+
+    translated_queries: list[str] = []
+    english_item = {
+        "DOI": "10.1/en.1",
+        "title": ["County Governance and Quantum Entanglement"],
+        "issued": {"date-parts": [[2024]]},
+        "score": 55.0,
+    }
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        # Crossref 用 query.bibliographic，OpenAlex 用 search
+        q = request.url.params.get("query.bibliographic") or request.url.params.get("search", "")
+        translated_queries.append(q)
+        if "quantum" in q.lower():  # 英文补查
+            return httpx.Response(
+                200, json={"message": {"total-results": 1, "items": [english_item]}}
+            )
+        return httpx.Response(200, json={"message": {"items": []}})  # 中文零命中
+
+    monkeypatch.setattr(
+        search_mod, "_OPEN_METADATA_CLIENT", _client(handler)
+    )
+    body = _client_for_search().post("/api/v1/search/works", json={"query": CROSS_QUERY}).json()
+
+    assert body["reason"] is None
+    assert body["results"][0]["title"] == "County Governance and Quantum Entanglement"
+    assert body["results"][0]["provenance"]["coverage"] == "partial"
+    assert "英文检索词" in body["coverage_note"]
+    # 第一轮中文（Crossref → OpenAlex），第二轮英文补查（Crossref）
+    assert translated_queries[0] == CROSS_QUERY
+    assert "quantum" in translated_queries[-1].lower()
+
+
+def test_cross_lingual_retry_cost_is_not_paid_when_chinese_hits_exist(monkeypatch) -> None:
+    """中文已经命中就不翻译：补查只在零命中时付费。"""
+    monkeypatch.setenv("FD_SHILUN_LLM_API_KEY", "test-key")
+    calls: list[str] = []
+    monkeypatch.setattr(search_mod.llm, "chat", lambda *a, **k: calls.append("x") or "english")
+
+    monkeypatch.setattr(
+        search_mod,
+        "_OPEN_METADATA_CLIENT",
+        _client(lambda r: httpx.Response(200, json={"message": {"total-results": 1, "items": [CROSSREF_ITEM]}})),
+    )
+    body = _client_for_search().post("/api/v1/search/works", json={"query": "乡村振兴"}).json()
+    assert body["reason"] is None and body["results"]
+    assert calls == []
+
+
+def test_cross_lingual_llm_failure_degrades_to_not_indexed(monkeypatch) -> None:
+    """网关报错不能让检索失败：降级为原路径的 not_indexed。"""
+    monkeypatch.setenv("FD_SHILUN_LLM_API_KEY", "test-key")
+
+    def boom(*a, **k):  # noqa: ANN002, ANN003
+        raise search_mod.llm.LLMError("网关挂了")
+
+    monkeypatch.setattr(search_mod.llm, "chat", boom)
+    monkeypatch.setattr(
+        search_mod,
+        "_OPEN_METADATA_CLIENT",
+        _client(lambda r: httpx.Response(200, json={"message": {"items": []}})),
+    )
+    resp = _client_for_search().post("/api/v1/search/works", json={"query": CROSS_QUERY})
+    assert resp.status_code == 200
+    assert resp.json()["reason"] == "not_indexed"
+
+
+def test_translation_must_change_language(monkeypatch) -> None:
+    """译文还是中文（模型偷懒）就不补查，避免白花一次请求。"""
+    monkeypatch.setenv("FD_SHILUN_LLM_API_KEY", "test-key")
+    monkeypatch.setattr(search_mod.llm, "chat", lambda *a, **k: "县域治理")
+    assert search_mod._translated_query("县域治理") is None

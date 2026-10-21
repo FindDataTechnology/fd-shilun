@@ -166,6 +166,14 @@ def _filter_relevant(
     豁免——无关查询因此仍然返回空，not_indexed 保持可达。
     """
     cjk_terms, latin_terms, trigrams = _query_terms(query)
+    if not cjk_terms:
+        # 纯拉丁查询（含跨语言补齐后的英文检索词）：不存在跨语言问题，
+        # 所有记录都用词面覆盖率直接判定，不需要汉字记录做锚点。
+        kept = [r for r in records if _relevant(r, cjk_terms, latin_terms, trigrams)]
+        for record in kept:
+            record.pop("score", None)
+        return kept, len(records) - len(kept)
+
     kept_ids: set[int] = set()
     anchor = 0.0
     for record in records:
