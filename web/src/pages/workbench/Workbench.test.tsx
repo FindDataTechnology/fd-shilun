@@ -153,6 +153,8 @@ describe("API 全挂时的降级态", () => {
                   license: "metadata-only",
                   coverage: "partial",
                   metadata_only: true,
+                  matched_terms: ["乡村", "振兴", "村振"],
+                  coverage_ratio: 0.6,
                 },
               },
             ],
@@ -168,6 +170,9 @@ describe("API 全挂时的降级态", () => {
     expect(html).toContain("覆盖不完整");
     expect(html).toContain("乡村振兴战略下的县域治理");
     expect(html).toContain("crossref");
+    // 部分覆盖摊开：逐条显示本条覆盖了查询的哪些词
+    expect(html).toContain("本条覆盖查询词");
+    expect(html).toContain("乡村、振兴、村振");
   });
 
   it("检索：授权通道命中不渲染覆盖提示", () => {
@@ -206,6 +211,29 @@ describe("API 全挂时的降级态", () => {
     );
     expect(html).not.toContain("覆盖不完整");
     expect(html).toContain("wanfang");
+  });
+
+  it("检索：精排开关可选出场——传 onRefine 才渲染勾选框", () => {
+    const base = {
+      mode: "query" as const,
+      onMode: noop,
+      text: "乡村振兴",
+      onText: noop,
+      onSubmit: noop,
+      busy: false,
+      result: { status: "idle" as const },
+      currentProjectLabel: null,
+      favoritedIds: [],
+      favoriteBusyId: null,
+      favoriteNote: null,
+      onFavorite: noop,
+    };
+    const withSwitch = renderToString(<SearchView {...base} refine={false} onRefine={noop} />);
+    expect(withSwitch).toContain("精排");
+    expect(withSwitch).toContain("用模型复核相关性");
+    // 只读渲染（不传 onRefine）保持原样：不出开关，也不能被误当成已开通能力
+    const withoutSwitch = renderToString(<SearchView {...base} />);
+    expect(withoutSwitch).not.toContain("精排");
   });
 
   it("公文：doctypes unavailable → 渲染「接线中」", () => {

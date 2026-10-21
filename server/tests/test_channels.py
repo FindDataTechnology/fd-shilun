@@ -518,6 +518,29 @@ CROSSREF_ONE = {
 }
 
 
+CROSSREF_TWO = {
+    "message": {
+        "total-results": 2,
+        "items": [
+            {
+                "DOI": "10.1234/cn.2023.001",
+                "title": ["乡村振兴战略下的县域治理"],
+                "author": [{"given": "三", "family": "张"}],
+                "issued": {"date-parts": [[2023, 5]]},
+                "container-title": ["中国行政管理"],
+            },
+            {
+                "DOI": "10.1234/cn.2022.002",
+                "title": ["乡村振兴背景下的财政支农机制"],
+                "author": [{"given": "五", "family": "王"}],
+                "issued": {"date-parts": [[2022, 1]]},
+                "container-title": ["农业经济问题"],
+            },
+        ],
+    }
+}
+
+
 def test_route_chinese_without_channel_falls_back_to_open_metadata(monkeypatch) -> None:
     """无授权通道 → 开放元数据兜底，逐条标 partial/metadata_only + coverage_note。"""
     monkeypatch.delenv(ENV_CHANNELS, raising=False)
@@ -538,13 +561,17 @@ def test_route_chinese_without_channel_falls_back_to_open_metadata(monkeypatch) 
     assert item["work_id"] == "10.1234/cn.2023.001"
     assert item["title"] == "乡村振兴战略下的县域治理"
     assert item["year"] == 2023 and item["venue"] == "中国行政管理"
-    assert item["provenance"] == {
+    prov = item["provenance"]
+    assert {k: prov[k] for k in ("source", "stable_id", "license", "coverage", "metadata_only")} == {
         "source": "crossref",
         "stable_id": "10.1234/cn.2023.001",
         "license": "metadata-only",
         "coverage": "partial",
         "metadata_only": True,
     }
+    # 部分覆盖要摊开：本条命中查询里的哪些词（「乡村振兴」的三个二元组）
+    assert set(prov["matched_terms"]) == {"乡村", "村振", "振兴"}
+    assert prov["coverage_ratio"] == 1.0
     # 兜底只问公开元数据，绝不构造 OpenAlex provider（那是主路径，不用于中文兜底）
     assert seen and "crossref" in seen[0]
 
@@ -565,6 +592,95 @@ def test_route_chinese_open_metadata_miss_is_not_indexed(monkeypatch) -> None:
     assert body["reason"] == "not_indexed"
     assert "覆盖不完整" in (body["detail"] or "")
     assert "no_authorized_channel" not in json.dumps(body, ensure_ascii=False)
+
+
+def test_rerank_without_llm_key_makes_no_model_call(monkeypatch) -> None:
+    """未配置网关：rerank=True 不得发起任何模型调用，结果与确定性路径一致。"""
+    monkeypatch.delenv(ENV_CHANNELS, raising=False)
+    monkeypatch.delenv(search_mod.CN_OPEN_FALLBACK_ENV, raising=False)
+    monkeypatch.delenv("FD_SHILUN_LLM_API_KEY", raising=False)
+    _forbid_provider(monkeypatch)
+    _stub_open_metadata(monkeypatch, crossref=CROSSREF_TWO)
+
+    calls: list[object] = []
+
+    def _must_not_call(*args, **kwargs):  # noqa: ANN002, ANN003, ANN202
+        calls.append((args, kwargs))
+        raise AssertionError("未配置网关时不得调用模型")
+
+    monkeypatch.setattr(search_mod.llm, "chat", _must_not_call)
+
+    body = (
+        _make_client()
+        .post(
+            "/api/v1/search/works",
+            json={"query": "乡村振兴", "rerank": True},
+        )
+        .json()
+    )
+    assert calls == []
+    assert len(body["results"]) == 2
+    assert body["reason"] is None
+
+
+def test_rerank_keeps_only_model_selected_candidates(monkeypatch) -> None:
+    """配了网关：按模型给出的下标过滤；不勾精排则不花这次调用。"""
+    monkeypatch.delenv(ENV_CHANNELS, raising=False)
+    monkeypatch.delenv(search_mod.CN_OPEN_FALLBACK_ENV, raising=False)
+    monkeypatch.setenv("FD_SHILUN_LLM_API_KEY", "test-key")
+    _forbid_provider(monkeypatch)
+    _stub_open_metadata(monkeypatch, crossref=CROSSREF_TWO)
+
+    seen: list[dict] = []
+
+    def _pick_second(messages, **kwargs):  # noqa: ANN001, ANN003, ANN202
+        seen.append({"messages": messages, **kwargs})
+        return "[1]"
+
+    monkeypatch.setattr(search_mod.llm, "chat", _pick_second)
+    client = _make_client()
+
+    body = client.post(
+        "/api/v1/search/works", json={"query": "乡村振兴", "rerank": True}
+    ).json()
+    assert [r["title"] for r in body["results"]] == ["乡村振兴背景下的财政支农机制"]
+    # 一次降温的取舍调用，且把检索词与候选题名都交给了模型
+    assert len(seen) == 1 and seen[0]["temperature"] == 0
+    prompt = json.dumps(seen[0]["messages"], ensure_ascii=False)
+    assert "乡村振兴" in prompt and "财政支农" in prompt
+
+    # 精排是显式可选项：不勾就不该产生模型调用
+    body = client.post("/api/v1/search/works", json={"query": "乡村振兴"}).json()
+    assert len(body["results"]) == 2 and len(seen) == 1
+
+
+def test_rerank_garbage_output_keeps_all_candidates(monkeypatch) -> None:
+    """模型输出不可解析/越界/空数组/调用失败 → 一律保留全部候选。
+
+    空结果的结论只能由确定性通道给出：模型答非所问时不能把一次检索清空。
+    """
+    monkeypatch.delenv(ENV_CHANNELS, raising=False)
+    monkeypatch.delenv(search_mod.CN_OPEN_FALLBACK_ENV, raising=False)
+    monkeypatch.setenv("FD_SHILUN_LLM_API_KEY", "test-key")
+    _forbid_provider(monkeypatch)
+    _stub_open_metadata(monkeypatch, crossref=CROSSREF_TWO)
+    client = _make_client()
+
+    for answer in ("我觉得第二条更相关", "[0, 99]", '[0, "x"]', "[]", "[true]"):
+        monkeypatch.setattr(search_mod.llm, "chat", lambda *a, _a=answer, **k: _a)
+        body = client.post(
+            "/api/v1/search/works", json={"query": "乡村振兴", "rerank": True}
+        ).json()
+        assert len(body["results"]) == 2, answer
+
+    def _boom(*args, **kwargs):  # noqa: ANN002, ANN003, ANN202
+        raise search_mod.llm.LLMError("网关挂了")
+
+    monkeypatch.setattr(search_mod.llm, "chat", _boom)
+    body = client.post(
+        "/api/v1/search/works", json={"query": "乡村振兴", "rerank": True}
+    ).json()
+    assert len(body["results"]) == 2
 
 
 def test_route_chinese_fallback_switch_off_restores_old_behaviour(monkeypatch) -> None:

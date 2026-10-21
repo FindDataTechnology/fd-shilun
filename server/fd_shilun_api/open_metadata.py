@@ -141,6 +141,22 @@ def _relevant(
     return matched / total >= _RELEVANCE_THRESHOLD
 
 
+def _annotate(record: dict[str, Any], cjk: set[str], latin: set[str]) -> None:
+    """把「本条命中查询的哪些词」写进记录。
+
+    部分覆盖是这类检索的固有事实：与其让用户以为返回的就是全部答案，不如逐条
+    说明它讲的是查询的哪一部分。纯本地计算，不再增加任何请求。
+    """
+    haystack = " ".join(
+        str(record.get(key) or "") for key in ("title", "abstract", "venue")
+    )
+    lowered = haystack.lower()
+    hits = [t for t in cjk if t in haystack] + [t for t in latin if t in lowered]
+    total = len(cjk) + len(latin)
+    record["matched_terms"] = sorted(hits)[:8]
+    record["coverage_ratio"] = round(len(hits) / total, 2) if total else None
+
+
 def _has_cjk_text(record: Mapping[str, Any]) -> bool:
     """记录文本里有没有汉字——没有就没法用中文词项做词面比对。"""
     haystack = " ".join(
@@ -172,6 +188,7 @@ def _filter_relevant(
         kept = [r for r in records if _relevant(r, cjk_terms, latin_terms, trigrams)]
         for record in kept:
             record.pop("score", None)
+            _annotate(record, cjk_terms, latin_terms)
         return kept, len(records) - len(kept)
 
     kept_ids: set[int] = set()
@@ -192,6 +209,7 @@ def _filter_relevant(
     # score 只是本层的判定输入，不进对外的记录契约
     for record in kept:
         record.pop("score", None)
+        _annotate(record, cjk_terms, latin_terms)
     return kept, len(records) - len(kept)
 
 

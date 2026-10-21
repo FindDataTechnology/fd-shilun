@@ -20,6 +20,11 @@ no_authorized_channel 只保留给需要原文全文的能力，不再由关键�
 （FD_SHILUN_CN_OPEN_FALLBACK 关闭时例外，用于回滚）。
 DOI 查询不受影响——DOI 永远走 OpenAlex 精确取。
 
+可选精排（请求体 rerank=true，仅影响中文兜底路径）：开放元数据是词面覆盖率
+筛选，能保证「沾边」但不能保证「相关」。候选多于一条时请 LLM 复核一次，
+只保留模型判定相关的条目；未配置网关、调用失败、输出不可解析一律退回全部
+候选——一次模型故障不得把检索结果清空。模型只做取舍，不新增、不改写结果。
+
 铁律：不自研 HTTP 抓 OpenAlex——一律走 fd_open_data_protocol 的
 OpenAlexProvider（复用其 UA/超时/失败语义），本模块只做薄封装与口径映射。
 
@@ -30,7 +35,9 @@ OpenAlexProvider（复用其 UA/超时/失败语义），本模块只做薄封�
 
 from __future__ import annotations
 
+import json
 import os
+import re
 from typing import Any, Literal, Sequence
 
 from fastapi import APIRouter, Depends
@@ -162,6 +169,8 @@ class WorksRequest(BaseModel):
     page: int = Field(default=1, ge=1)
     per_page: int = Field(default=10, ge=1, le=25)
     channel_credentials: dict[str, str] | None = Field(default=None, repr=False)
+    # 可选精排：只在中文兜底（开放元数据）命中后生效，未配置网关时无副作用
+    rerank: bool = False
 
     @model_validator(mode="after")
     def _exactly_one_key(self) -> "WorksRequest":
@@ -190,6 +199,9 @@ class Provenance(BaseModel):
     coverage: Literal["partial"] | None = None
     # 只有元数据、没有原文：中文兜底路径恒为 True，提醒调用方别把它当已核验。
     metadata_only: bool | None = None
+    # 部分覆盖的透明度：本条命中查询里的哪些词、覆盖比例多少。
+    matched_terms: list[str] | None = None
+    coverage_ratio: float | None = None
 
     @model_serializer(mode="wrap")
     def _omit_absent_authorization(self, handler):  # noqa: ANN001
@@ -199,7 +211,7 @@ class Provenance(BaseModel):
         # 未授权时连空字段都不出现：OpenAlex 响应与改动前逐字节一致
         if data.get("authorization") is None:
             data.pop("authorization", None)
-        for key in ("coverage", "metadata_only"):
+        for key in ("coverage", "metadata_only", "matched_terms", "coverage_ratio"):
             if data.get(key) is None:
                 data.pop(key, None)
         return data
@@ -342,6 +354,73 @@ def _translated_query(query: str) -> str | None:
 _OPEN_METADATA_CLIENT: Any = None
 
 
+# 精排提示词：只要下标数组。模型只做取舍，不生成新条目——检索结果必须可溯源到
+# 上游返回的那几条，模型说什么都不能凭空多出文献。
+_RERANK_PROMPT = (
+    "你在复核文献检索结果的相关性。给定用户检索词与候选题名列表，"
+    "选出与检索词主题相关的候选。只输出一个 JSON 整数数组，"
+    "元素是候选前面的下标，例如 [0,2]。"
+    "不要解释、不要代码块、不要输出任何其它文字。"
+)
+
+
+def _parse_rerank_indexes(raw: str, count: int) -> list[int] | None:
+    """模型输出 → 保留下标；任何不可信的输出一律 None（调用方保留全部候选）。
+
+    空数组也返回 None：模型说「一条都不相关」与「模型答非所问」在文本上一样
+    不可靠，而按空数组返回会让一次检索凭空变成「查不到」——空结果的结论只能
+    由确定性通道给出，不能由一次模型调用决定。
+    """
+    match = re.search(r"\[[^\[\]]*\]", raw or "")
+    if not match:
+        return None
+    try:
+        parsed = json.loads(match.group(0))
+    except ValueError:
+        return None
+    if not isinstance(parsed, list) or not parsed:
+        return None
+    keep: list[int] = []
+    for value in parsed:
+        # bool 是 int 的子类：JSON 的 true/false 不能当 0/1 用
+        if isinstance(value, bool) or not isinstance(value, int):
+            return None
+        if not 0 <= value < count:
+            return None
+        if value not in keep:
+            keep.append(value)
+    return sorted(keep)
+
+
+def _rerank_keep(query: str, titles: Sequence[str]) -> list[int] | None:
+    """请模型复核候选相关性，返回保留项下标；None 表示「无法判定，全部保留」。"""
+    if not llm.is_configured():
+        return None
+    numbered = "\n".join(f"{i}. {title}" for i, title in enumerate(titles))
+    try:
+        out = llm.chat(
+            [
+                {"role": "system", "content": _RERANK_PROMPT},
+                {"role": "user", "content": f"检索词：{query}\n候选题名：\n{numbered}"},
+            ],
+            temperature=0,
+            max_tokens=128,
+        )
+    except llm.LLMError:
+        return None
+    return _parse_rerank_indexes(out or "", len(titles))
+
+
+def _apply_rerank(items: list[WorkItem], query: str) -> list[WorkItem]:
+    """按模型判定过滤候选：只有多于一条时才值得多花一次调用。"""
+    if len(items) <= 1:
+        return items
+    keep = _rerank_keep(query, [str(item.title or "") for item in items])
+    if keep is None:
+        return items
+    return [items[i] for i in keep]
+
+
 def _open_metadata_items(result) -> list[WorkItem]:
     """开放元数据命中 → WorkItem，逐条标注 partial + metadata_only。"""
     items: list[WorkItem] = []
@@ -361,6 +440,10 @@ def _open_metadata_items(result) -> list[WorkItem]:
                     license="metadata-only",  # 只有元数据，不声称可读全文
                     coverage="partial",
                     metadata_only=True,
+                    matched_terms=row.get("matched_terms") or None,
+                    # 0.0 只出现在「无汉字记录、靠上游分数锚定」的情况，
+                    # 那不是「覆盖 0%」而是「无法用中文词比对」，不填更诚实
+                    coverage_ratio=row.get("coverage_ratio") or None,
                 ),
             )
         )
@@ -374,6 +457,7 @@ def _chinese_lookup(
     channels: Sequence[SearchChannel] | None = None,
     *,
     credentials: dict[str, str] | None = None,
+    rerank: bool = False,
 ) -> WorksResponse:
     """中文文献检索：授权通道优先，未命中则开放元数据兜底（可开关关闭）。
 
@@ -383,6 +467,9 @@ def _chinese_lookup(
       metadata_only=true，响应带 coverage_note；
     - 仍然无命中 → reason=not_indexed（附覆盖说明），**不返回**
       no_authorized_channel——那是全文级能力的原因码。
+
+    rerank=True 时对开放元数据候选请模型复核相关性（授权通道结果不动：
+    那是精确通道，不需要二次取舍）。
     """
     data = search_chinese(
         query, page=page, per_page=per_page, channels=channels, credentials=credentials
@@ -415,6 +502,8 @@ def _chinese_lookup(
     )
     open_items = _open_metadata_items(fallback)
     if open_items:
+        if rerank:
+            open_items = _apply_rerank(open_items, query)
         return WorksResponse(
             results=open_items,
             total=fallback.total,
@@ -432,6 +521,9 @@ def _chinese_lookup(
         )
         retry_items = _open_metadata_items(retry)
         if retry_items:
+            if rerank:
+                # 相关性按用户原始检索词判定：译文只是查库用的手段，不是需求本身
+                retry_items = _apply_rerank(retry_items, query)
             return WorksResponse(
                 results=retry_items,
                 total=retry.total,
@@ -537,6 +629,7 @@ def search_works(
     per_page: int = 10,
     channels: Sequence[SearchChannel] | None = None,
     credentials: dict[str, str] | None = None,
+    rerank: bool = False,
 ) -> WorksResponse:
     """检索核心（无鉴权层，路由与真实验收脚本共用入口）。
 
@@ -544,6 +637,7 @@ def search_works(
     FD_SHILUN_CN_CHANNELS 现读配置。
     credentials 是使用者自备的通道凭据（BYOK，优先级高于环境变量）；
     只在本次调用内使用，不落库、不进日志、不回显。
+    rerank 只作用于中文兜底路径（开放元数据候选），其余路径忽略。
     """
     page = max(int(page), 1)
     per_page = min(max(int(per_page), 1), 25)
@@ -553,7 +647,9 @@ def search_works(
     text = (query or "").strip()
     if _has_cjk(text):
         # 中文文献：授权通道优先，未命中则开放元数据兜底（spec「论文检索」）。
-        return _chinese_lookup(text, page, per_page, channels, credentials=credentials)
+        return _chinese_lookup(
+            text, page, per_page, channels, credentials=credentials, rerank=rerank
+        )
     return _query_lookup(_new_provider(), text, page, per_page)
 
 
@@ -569,4 +665,5 @@ def works(body: WorksRequest, user_id: str = Depends(require_user)) -> WorksResp
         page=body.page,
         per_page=body.per_page,
         credentials=body.channel_credentials,
+        rerank=body.rerank,
     )

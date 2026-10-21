@@ -66,6 +66,7 @@ describe("URL 拼装与 token 头", () => {
 
     await api.searchWorks({ query: "对齐 综述" });
     await api.searchWorks({ doi: "10.1000/xyz123" });
+    await api.searchWorks({ query: "乡村振兴", rerank: true });
 
     const [u1, i1] = fetchMock.mock.calls[0] as unknown as [string, RequestInit];
     expect(u1).toBe(`${API_BASE}/api/v1/search/works`);
@@ -75,6 +76,10 @@ describe("URL 拼装与 token 头", () => {
 
     const [, i2] = fetchMock.mock.calls[1] as unknown as [string, RequestInit];
     expect(JSON.parse(String(i2.body))).toEqual({ doi: "10.1000/xyz123" });
+
+    // 精排是显式开关：勾了才带 rerank，默认请求体不变
+    const [, i3] = fetchMock.mock.calls[2] as unknown as [string, RequestInit];
+    expect(JSON.parse(String(i3.body))).toEqual({ query: "乡村振兴", rerank: true });
   });
 
   it("路径参数走 encodeURIComponent；gov/template 的 doctype 走 query", async () => {

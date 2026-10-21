@@ -69,6 +69,8 @@ export default {
       searching: "检索中…",
       resultsEmpty: "没有命中的文献。",
       reason: "原因：{{reason}}",
+      coveredTerms: "本条覆盖查询词：{{terms}}",
+      refine: "精排（用模型复核相关性，较慢）",
       citedBy: "被引 {{count}} 次",
       provenance: "来源",
       favorite: "收藏到当前项目",

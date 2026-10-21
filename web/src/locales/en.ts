@@ -69,6 +69,8 @@ export default {
       searching: "Searching…",
       resultsEmpty: "No matching works.",
       reason: "Reason: {{reason}}",
+      coveredTerms: "Matched query terms: {{terms}}",
+      refine: "Refine (LLM relevance check, slower)",
       citedBy: "Cited {{count}} times",
       provenance: "source",
       favorite: "Save to current project",

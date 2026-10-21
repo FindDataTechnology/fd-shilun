@@ -22,6 +22,8 @@ export function SearchView({
   favoriteBusyId,
   favoriteNote,
   onFavorite,
+  refine,
+  onRefine,
 }: {
   mode: SearchMode;
   onMode: (m: SearchMode) => void;
@@ -35,6 +37,9 @@ export function SearchView({
   favoriteBusyId: string | null;
   favoriteNote: string | null;
   onFavorite: (work: WorkResult) => void;
+  // 可选：传了才渲染勾选框（只读渲染场景不必关心精排）
+  refine?: boolean;
+  onRefine?: (v: boolean) => void;
 }) {
   const { t } = useTranslation();
   const canFavorite = Boolean(currentProjectLabel);
@@ -72,6 +77,17 @@ export function SearchView({
           >
             {busy ? t("workbench.search.searching") : t("workbench.search.submit")}
           </button>
+          {onRefine ? (
+            <label className="flex items-center gap-1.5 text-xs text-neutral-600">
+              <input
+                type="checkbox"
+                checked={Boolean(refine)}
+                onChange={(e) => onRefine(e.target.checked)}
+                className="h-3.5 w-3.5 rounded border-neutral-300"
+              />
+              {t("workbench.search.refine")}
+            </label>
+          ) : null}
         </div>
         {!canFavorite ? (
           <p className="mt-2 text-xs text-neutral-400">{t("workbench.project.hint")}</p>
@@ -133,6 +149,14 @@ function SearchResultView({
                     <p className="mt-1 text-xs text-neutral-500">
                       {workMeta(w)}
                     </p>
+                    {/* 部分覆盖摊开：让用户看出这条只讲到查询的哪一部分 */}
+                    {w.provenance?.matched_terms?.length ? (
+                      <p className="mt-1 text-xs text-amber-700">
+                        {t("workbench.search.coveredTerms", {
+                          terms: w.provenance.matched_terms.join("、"),
+                        })}
+                      </p>
+                    ) : null}
                   </div>
                   <button
                     type="button"
@@ -177,6 +201,7 @@ export default function SearchPanel({ currentProject }: { currentProject: Projec
   const { t } = useTranslation();
   const [mode, setMode] = useState<SearchMode>("query");
   const [text, setText] = useState("");
+  const [refine, setRefine] = useState(false);
   const [busy, setBusy] = useState(false);
   const [result, setResult] = useState<Loadable<SearchResponse>>({ status: "idle" });
   const [favoritedIds, setFavoritedIds] = useState<string[]>([]);
@@ -190,7 +215,9 @@ export default function SearchPanel({ currentProject }: { currentProject: Projec
     setResult({ status: "loading" });
     try {
       const data =
-        mode === "doi" ? await api.searchWorks({ doi: q }) : await api.searchWorks({ query: q });
+        mode === "doi"
+          ? await api.searchWorks({ doi: q })
+          : await api.searchWorks({ query: q, ...(refine ? { rerank: true } : {}) });
       setResult({ status: "ready", data });
     } catch (e) {
       setResult(mapApiError(e));
@@ -229,6 +256,8 @@ export default function SearchPanel({ currentProject }: { currentProject: Projec
       favoriteBusyId={favoriteBusyId}
       favoriteNote={favoriteNote}
       onFavorite={(w) => void favorite(w)}
+      refine={refine}
+      onRefine={setRefine}
     />
   );
 }

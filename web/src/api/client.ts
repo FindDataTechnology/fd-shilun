@@ -133,6 +133,10 @@ export interface WorkProvenance {
   coverage?: "partial" | null;
   /** 只有元数据、没有原文。 */
   metadata_only?: boolean | null;
+  /** 本条命中查询里的哪些词（部分覆盖的透明度）。 */
+  matched_terms?: string[] | null;
+  /** 这些词占查询词项的比例。 */
+  coverage_ratio?: number | null;
 }
 
 /** 检索结果（POST /api/v1/search/works）。 */
@@ -345,7 +349,7 @@ export function textList(v: unknown): string[] {
 
 export const api = {
   // 检索
-  searchWorks: (b: { query?: string; doi?: string }) =>
+  searchWorks: (b: { query?: string; doi?: string; rerank?: boolean }) =>
     request<SearchResponse>("/api/v1/search/works", { method: "POST", body: b, wired: true }),
 
   // 公文

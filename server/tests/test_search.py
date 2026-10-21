@@ -133,6 +133,31 @@ def test_query_pagination_passthrough_and_caps(monkeypatch) -> None:
     assert client.post("/api/v1/search/works", json={"query": "q", "page": 0}).status_code == 422
 
 
+def test_rerank_is_ignored_on_openalex_keyword_path(monkeypatch) -> None:
+    """rerank 只作用于中文兜底：英文关键词已由 OpenAlex 排好序，不得再调模型。"""
+    monkeypatch.setenv("FD_SHILUN_LLM_API_KEY", "test-key")
+    _patch_get(monkeypatch, payload=RAW_WORKS_PAYLOAD)
+
+    calls: list[object] = []
+
+    def _must_not_call(*args, **kwargs):  # noqa: ANN002, ANN003, ANN202
+        calls.append((args, kwargs))
+        raise AssertionError("OpenAlex 主路径不得调用模型")
+
+    monkeypatch.setattr(search_mod.llm, "chat", _must_not_call)
+
+    body = (
+        _make_client()
+        .post(
+            "/api/v1/search/works",
+            json={"query": "nanomachines", "rerank": True},
+        )
+        .json()
+    )
+    assert calls == []
+    assert len(body["results"]) == 2
+
+
 def test_request_query_doi_exclusivity(monkeypatch) -> None:
     _patch_get(monkeypatch, payload=RAW_WORKS_PAYLOAD)
     client = _make_client()
