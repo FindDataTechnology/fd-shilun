@@ -150,6 +150,65 @@ describe('实论登录', () => {
     expect(await ensureFreshToken()).toBeNull()
   })
 
+  it('登录全链：登录 → 受保护请求带 Bearer → 续期 → 重放 → 退出后不可达', async () => {
+    // ① 登录跳转
+    await login()
+    expect(assigned[0]).toContain('https://auth.finddatatech.cloud/oidc/auth?')
+    const pkceRaw = sessionStore.getItem('shilun.pkce')
+    expect(pkceRaw).toBeTruthy()
+    const pkce = JSON.parse(pkceRaw as string)
+
+    // ② 回跳换令牌（短命：5 秒后过期）
+    const now0 = Date.now()
+    const shortExp = Math.floor(now0 / 1000) + 5
+    installWindow('https://shilun.test/workbench')
+    sessionStore.setItem('shilun.pkce', pkceRaw as string)
+    sessionStore.setItem('x', '') // 保持 store 引用不变
+    const g = globalThis as unknown as Record<string, unknown>
+    ;(g.window as { history: { replaceState: () => void } }).history.replaceState = () => {}
+    // 用 replaceState 造回跳地址
+    ;(globalThis as unknown as { window: { location: { href: string } } }).window.location.href =
+      `https://shilun.test/workbench?code=c-1&state=${pkce.state}`
+
+    const seenAuth: string[] = []
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async (url: RequestInfo | URL, init?: RequestInit) => {
+        const u = String(url)
+        if (u.includes('/oidc/token')) {
+          const body = String(init?.body ?? '')
+          const isRefresh = body.includes('grant_type=refresh_token')
+          return {
+            ok: true,
+            status: 200,
+            json: async () =>
+              isRefresh
+                ? { id_token: idToken(Math.floor(Date.now() / 1000) + 3600), refresh_token: 'r-2' }
+                : { id_token: idToken(shortExp), refresh_token: 'r-1' },
+          } as Response
+        }
+        seenAuth.push(String(new Headers(init?.headers).get('Authorization')))
+        if (seenAuth.length === 1) return new Response('expired', { status: 401 })
+        return new Response('{}', { status: 200, headers: { 'Content-Type': 'application/json' } })
+      }),
+    )
+
+    expect(await handleCallback()).toBe(true)
+
+    // ③ 受保护请求：401 → 静默续期 → 重放成功
+    const { api } = await import('./client')
+    await api.listDoctypes()
+    expect(seenAuth.length).toBe(2)
+    expect(seenAuth[0]).toMatch(/^Bearer /)
+    expect(seenAuth[1]).toMatch(/^Bearer /)
+    expect(seenAuth[1]).not.toBe(seenAuth[0])
+
+    // ④ 退出后受保护入口不可达
+    logout()
+    expect(currentToken()).toBeNull()
+    expect(localStore.getItem('shilun_token')).toBeNull()
+  })
+
   it('login 会跳转到 Logto authorize（带 PKCE 参数）', async () => {
     await login()
     expect(assigned).toHaveLength(1)
