@@ -1,103 +1,87 @@
-// Logto OIDC 登录流（authorization code + PKCE，原生 fetch/crypto，零依赖）。
-// 照抄 ../fd-zhesi/web/src/api/logto.ts；token 写 localStorage["shilun_token"]，
-// 与 api/client.ts 的读取约定一致（client.setToken 同键）。
+// 实论（shilun）登录：内核换成共享壳（change lex-web-shell-convergence 6.2）。
+//
+// 原先这份是「照抄 fd-zhesi」的 103 行残版：只有 code→id_token，
+// **没有 refresh**——会话一过期就得重新登录。切到壳之后自动获得静默续期。
+//
+// 对外 API 保持原样（currentToken / isLoggedIn / login / handleCallback / logout），
+// 所以 App.tsx 与 client.ts 都不用改。唯一变化：token 落 sessionStorage 而非
+// localStorage（壳的默认），关掉标签页即失效——这是有意的收紧。
+import { createAuth } from '../kit/auth/index'
+import { setToken, TOKEN_KEY } from './client'
 
-import { setToken } from "./client";
+const ISSUER = 'https://auth.finddatatech.cloud/oidc'
+const CLIENT_ID = 'aqqinerulglscp6tw1fy0' // Logto: shilun-workbench（SPA）
+const SCOPE = 'openid profile offline_access'
 
-const ISSUER = "https://auth.finddatatech.cloud/oidc";
-const CLIENT_ID = "aqqinerulglscp6tw1fy0"; // Logto: shilun-workbench（SPA）
-const REDIRECT_URI = `${window.location.origin}/workbench`;
-const SCOPE = "openid profile offline_access";
+/**
+ * 惰性构造：回跳地址依赖 `window.location.origin`，模块加载期读它会让本文件
+ * 在 node 环境下直接抛（这也是它此前没有任何测试的原因）。首次使用时才求值。
+ */
+let instance: ReturnType<typeof createAuth> | null = null
+function auth() {
+  if (!instance) {
+    instance = createAuth({
+      fetchConfig: async () => ({
+        configured: true,
+        issuer: ISSUER,
+        client_id: CLIENT_ID,
+        scopes: SCOPE.split(' '),
+        organization_required: false,
+        missing: [],
+      }),
+      redirectUri: `${window.location.origin}/workbench`,
+      storagePrefix: 'shilun',
+      tokenStorage: 'session',
+    })
+  }
+  return instance
+}
 
-const TOKEN_KEY = "shilun_token";
-const VERIFIER_KEY = "shilun_pkce_verifier";
-const STATE_KEY = "shilun_oidc_state";
-
+/** 当前 ID token（供 client.ts 之外的读取方；写路径仍由 client.setToken 统一）。 */
 export function currentToken(): string | null {
-  return localStorage.getItem(TOKEN_KEY);
+  return auth().loadSession()?.idToken ?? null
 }
 
 export function isLoggedIn(): boolean {
-  return Boolean(currentToken());
+  return Boolean(currentToken())
 }
 
-function randomString(len = 48): string {
-  const bytes = new Uint8Array(len);
-  crypto.getRandomValues(bytes);
-  return Array.from(bytes, (b) => b.toString(36).padStart(2, "0")).join("").slice(0, 64);
-}
-
-async function sha256B64Url(input: string): Promise<string> {
-  const digest = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(input));
-  return btoa(String.fromCharCode(...new Uint8Array(digest)))
-    .replace(/\+/g, "-")
-    .replace(/\//g, "_")
-    .replace(/=+$/, "");
-}
-
+/** 发起登录；未配置时报错而非假登录（壳内的如实阻塞）。 */
 export async function login(): Promise<void> {
-  const verifier = randomString();
-  const state = randomString(16);
-  localStorage.setItem(VERIFIER_KEY, verifier);
-  localStorage.setItem(STATE_KEY, state);
-  const challenge = await sha256B64Url(verifier);
-  const params = new URLSearchParams({
-    client_id: CLIENT_ID,
-    redirect_uri: REDIRECT_URI,
-    response_type: "code",
-    scope: SCOPE,
-    state,
-    code_challenge: challenge,
-    code_challenge_method: "S256",
-  });
-  window.location.assign(`${ISSUER}/auth?${params}`);
+  await auth().beginLogin()
 }
 
-/** /workbench 挂载时调用：带 code 回跳则换 token，成功后清 URL 参数。 */
+/** 处理回跳：成功返回 true，并把 token 同步到 client 的读取键。 */
 export async function handleCallback(): Promise<boolean> {
-  const url = new URL(window.location.href);
-  const code = url.searchParams.get("code");
-  const state = url.searchParams.get("state");
-  if (!code) return false;
-  const expected = localStorage.getItem(STATE_KEY);
-  if (!state || !expected || state !== expected) {
-    url.searchParams.delete("code");
-    url.searchParams.delete("state");
-    window.history.replaceState({}, "", url.pathname);
-    return false;
+  try {
+    const result = await auth().completeLogin()
+    if (!result.ok) return false
+    const token = auth().loadSession()?.idToken
+    if (token) setToken(token)
+    return Boolean(token)
+  } catch {
+    return false
   }
-  const verifier = localStorage.getItem(VERIFIER_KEY) ?? "";
-  const body = new URLSearchParams({
-    grant_type: "authorization_code",
-    code,
-    redirect_uri: REDIRECT_URI,
-    client_id: CLIENT_ID,
-    code_verifier: verifier,
-  });
-  const resp = await fetch(`${ISSUER}/token`, {
-    method: "POST",
-    headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    body,
-  });
-  url.searchParams.delete("code");
-  url.searchParams.delete("state");
-  window.history.replaceState({}, "", url.pathname);
-  localStorage.removeItem(STATE_KEY);
-  localStorage.removeItem(VERIFIER_KEY);
-  if (!resp.ok) return false;
-  const token = await resp.json();
-  if (token.id_token) {
-    setToken(String(token.id_token));
-    return true;
+}
+
+/**
+ * 静默续期：受保护请求前调用。
+ * 未过期直接返回当前 token；过期则用 refresh token 续（壳内实现），
+ * 续不上返回 null（调用方按「需重新登录」处理，壳不会擅自清会话）。
+ */
+export async function ensureFreshToken(): Promise<string | null> {
+  try {
+    const session = await auth().ensureFresh()
+    if (!session) return null
+    setToken(session.idToken)
+    return session.idToken
+  } catch {
+    // 凭据失效或续期失败：如实返回 null，不假装已登录
+    return null
   }
-  return false;
 }
 
 export function logout(): void {
-  localStorage.removeItem(TOKEN_KEY);
-  const params = new URLSearchParams({
-    client_id: CLIENT_ID,
-    post_logout_redirect_uri: `${window.location.origin}/`,
-  });
-  window.location.assign(`${ISSUER}/session/end?${params}`);
+  auth().logoutLocal()
+  setToken('')
 }
