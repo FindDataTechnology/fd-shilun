@@ -1,8 +1,8 @@
-# fd-zhesi
+# fd-shilun
 
-实论（zhesi）独立产品线门面单仓：web 三入口（`/` 官网 landing、`/workbench` 工作台、`/admin` 管理后台）+ FastAPI 服务端（个人层：立场卡/张力簿/思想年轮的自有存储）。
+实论（shilun）独立产品线门面单仓：web 三入口（`/` 官网 landing、`/workbench` 工作台、`/admin` 管理后台）+ FastAPI 服务端（个人层：立场卡/张力簿/思想年轮的自有存储）。
 
-依据 `openspec/changes/zhesi-worldview-workshop`（task 6.1，骨架）。技术栈照 fd 舰队配方：React 19 + Vite + TS + Tailwind v4 + i18next 双语；服务端 Python FastAPI；部署 cheap fd-prod + TCR + ArgoCD。
+依据 `openspec/changes/shilun-serious-writing`（task 6.1，骨架）。技术栈照 fd 舰队配方：React 19 + Vite + TS + Tailwind v4 + i18next 双语；服务端 Python FastAPI；部署 cheap fd-prod + TCR + ArgoCD。
 
 参照系检索本体在独立仓 `fd-zhesi-reference`（MCP 服务），本仓不承载参照系实现——照 fd-lex 与 fd-legal-search-mcp 的分仓先例。
 
