@@ -9,7 +9,9 @@
 import { createAuth } from '../kit/auth/index'
 import { setToken, TOKEN_KEY } from './client'
 
-const ISSUER = 'https://auth.finddatatech.cloud/oidc'
+// 壳约定：issuer 是**基地址**（不含 /oidc），由壳拼 `${issuer}/oidc/auth`。
+// 这里原先写的是含 /oidc 的完整 issuer，直接传会拼出 /oidc/oidc/auth。
+const ISSUER_BASE = 'https://auth.finddatatech.cloud'
 const CLIENT_ID = 'aqqinerulglscp6tw1fy0' // Logto: shilun-workbench（SPA）
 const SCOPE = 'openid profile offline_access'
 
@@ -23,7 +25,7 @@ function auth() {
     instance = createAuth({
       fetchConfig: async () => ({
         configured: true,
-        issuer: ISSUER,
+        issuer: ISSUER_BASE,
         client_id: CLIENT_ID,
         scopes: SCOPE.split(' '),
         organization_required: false,

@@ -155,6 +155,9 @@ describe('实论登录', () => {
     expect(assigned).toHaveLength(1)
     expect(assigned[0]).toContain('/oidc/auth?')
     expect(assigned[0]).toContain('code_challenge_method=S256')
+    // 回归：issuer 必须是基地址，拼出来的授权端点不能出现双 /oidc
+    expect(assigned[0]).not.toContain('/oidc/oidc')
+    expect(assigned[0].startsWith('https://auth.finddatatech.cloud/oidc/auth?')).toBe(true)
     expect(assigned[0]).toContain('redirect_uri=')
   })
 })
