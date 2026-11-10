@@ -1,15 +1,33 @@
-/** 工作台共用小部件：状态徽标、降级/错误/加载盒、分节标题。无外部 UI 库。
- *  照抄 ../fd-zhesi/web/src/components/ui.tsx（去哲思专有的 Stability 徽标，换实论的引证徽标）。 */
+/** 工作台共用小部件：状态徽标、降级/错误/加载盒、分节标题。
+ *
+ *  状态类控件（加载/错误/空态、状态徽标）自 2026-11-10 起改由共享壳原语实现
+ *  （`src/kit/primitives`，change lex-web-shell-convergence 5.3）。本文件保留同名导出，
+ *  调用点零改动；**视觉不变**——尺寸/间距/字重/配色仍用本宿主原来的类名，
+ *  经 `className` / `toneClassName` 原样传给原语。
+ *
+ *  `DegradeBox` 刻意不并入原语：它不是通用错误态，而是"诚实降级契约"的呈现
+ *  （未连接该数据源、本节未经检索核实）。换成通用 ErrorState 会丢语义。
+ */
 import type { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { Loadable } from "../api/state";
+import {
+  EmptyState,
+  ErrorState,
+  LoadingState,
+  StatusPill,
+  type StatusTone,
+} from "../kit/primitives/index";
 
+/** 加载态（原语：LoadingState）。外观类名逐字沿用旧值。 */
 export function Loading() {
   const { t } = useTranslation();
-  return <p className="animate-pulse text-sm text-neutral-400">{t("workbench.loading")}</p>;
+  return (
+    <LoadingState label={t("workbench.loading")} className="animate-pulse text-sm text-neutral-400" />
+  );
 }
 
-/** 「该能力接线中」降级盒（检索/公文/写作 5xx/超时/未接线）。 */
+/** 「该能力接线中」降级盒（检索/公文/写作 5xx/超时/未接线）。保持宿主自有实现。 */
 export function DegradeBox({ extra }: { extra?: ReactNode }) {
   const { t } = useTranslation();
   return (
@@ -24,13 +42,12 @@ export function DegradeBox({ extra }: { extra?: ReactNode }) {
 export function ErrorBox({ message, code }: { message: string; code?: number }) {
   const { t } = useTranslation();
   return (
-    <div className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800">
-      <p>
-        {t("workbench.error")}
-        {message ? `：${message}` : ""}
-      </p>
-      {code === 401 ? <p className="mt-1 text-xs">{t("workbench.tokenHint")}</p> : null}
-    </div>
+    <ErrorState
+      label={t("workbench.error")}
+      detail={message || undefined}
+      hint={code === 401 ? t("workbench.tokenHint") : undefined}
+      toneClassName="border-red-200 bg-red-50 text-red-800"
+    />
   );
 }
 
@@ -57,17 +74,25 @@ export function Note({ children }: { children: ReactNode }) {
   return <p className="text-sm text-green-700">{children}</p>;
 }
 
+/** 空态（原语：EmptyState）。 */
 export function EmptyLine({ children }: { children: ReactNode }) {
-  return <p className="text-sm text-neutral-400">{children}</p>;
+  return <EmptyState className="text-sm text-neutral-400">{children}</EmptyState>;
 }
+
+/** 徽标共用尺寸类名（原三处各自重复写，这里提一处；值逐字不变）。 */
+const BADGE_SIZE = "shrink-0 rounded-full border px-2 py-0.5 text-xs";
 
 /** 依据引证徽标（提纲节 basis 的 citation_id）。 */
 export function CitationBadge({ id }: { id: string }) {
   const { t } = useTranslation();
   return (
-    <span className="shrink-0 rounded-full border border-neutral-300 bg-white px-2 py-0.5 text-xs text-neutral-600">
+    <StatusPill
+      tone="neutral"
+      className={BADGE_SIZE}
+      toneClassName={{ neutral: "border-neutral-300 bg-white text-neutral-600" }}
+    >
       {t("workbench.writing.basis", { id })}
-    </span>
+    </StatusPill>
   );
 }
 
@@ -75,23 +100,34 @@ export function CitationBadge({ id }: { id: string }) {
 export function WarnBadge() {
   const { t } = useTranslation();
   return (
-    <span className="shrink-0 rounded-full border border-amber-300 bg-amber-50 px-2 py-0.5 text-xs text-amber-800">
+    <StatusPill
+      tone="warn"
+      className={BADGE_SIZE}
+      toneClassName={{ warn: "border-amber-300 bg-amber-50 text-amber-800" }}
+    >
       {t("workbench.writing.needsEvidence")}
-    </span>
+    </StatusPill>
   );
 }
+
+const VERIFY_TONE: Record<"pass" | "block" | "pending_review", { tone: StatusTone; cls: string }> = {
+  pass: { tone: "positive", cls: "border-green-300 bg-green-50 text-green-800" },
+  block: { tone: "danger", cls: "border-red-300 bg-red-50 text-red-800" },
+  pending_review: { tone: "warn", cls: "border-amber-300 bg-amber-50 text-amber-800" },
+};
 
 /** 核验状态徽标（pass / block / pending_review）。 */
 export function VerifyStatusBadge({ status }: { status: "pass" | "block" | "pending_review" }) {
   const { t } = useTranslation();
-  const styles: Record<string, string> = {
-    pass: "border-green-300 bg-green-50 text-green-800",
-    block: "border-red-300 bg-red-50 text-red-800",
-    pending_review: "border-amber-300 bg-amber-50 text-amber-800",
-  };
+  // 未知状态保留旧兜底：只有边框色（与原实现一致）
+  const spec = VERIFY_TONE[status];
   return (
-    <span className={`shrink-0 rounded-full border px-2 py-0.5 text-xs ${styles[status] ?? "border-neutral-300"}`}>
+    <StatusPill
+      tone={spec?.tone ?? "neutral"}
+      className={BADGE_SIZE}
+      toneClassName={spec ? { [spec.tone]: spec.cls } : { neutral: "border-neutral-300" }}
+    >
       {t(`workbench.writing.verify.status.${status}`)}
-    </span>
+    </StatusPill>
   );
 }
