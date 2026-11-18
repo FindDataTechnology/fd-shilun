@@ -8,6 +8,7 @@
 // localStorage（壳的默认），关掉标签页即失效——这是有意的收紧。
 import { createAuth } from '../kit/auth/index'
 import { setToken, TOKEN_KEY } from './client'
+import { ssoHintMark as mark, ssoHintSeen as seen } from '../kit/auth/sso-hint'
 
 // 壳约定：issuer 是**基地址**（不含 /oidc），由壳拼 `${issuer}/oidc/auth`。
 // 这里原先写的是含 /oidc 的完整 issuer，直接传会拼出 /oidc/oidc/auth。
@@ -53,6 +54,43 @@ export async function login(): Promise<void> {
   await auth().beginLogin()
 }
 
+/**
+ * 同租户静默单点登录（web-shell-kit「同租户静默单点登录」）。
+ *
+ * 形状由真实 IdP 决定（2026-11-18 实测 auth.finddatatech.cloud）：无会话时
+ * `prompt=none` 是 303 到回跳地址带 `error=login_required`，auth 域带
+ * X-Frame-Options: SAMEORIGIN（iframe 不可行）——所以「静默」是一次整页跳转，
+ * 多数情况下带 code 直接回来。只在**回跳落地**时被调用（见 App 的挂载点）。
+ */
+export async function trySilentLogin(): Promise<'logged-in' | 'interactive-required'> {
+  try {
+    const outcome = await auth().trySilentLogin()
+    if (outcome === 'logged-in') {
+      const token = auth().loadSession()?.idToken
+      if (token) setToken(token)
+    }
+    return outcome
+  } catch {
+    // 真实故障不该被静默吞掉：交给调用方按「未登录」呈现，但保留已登录态
+    return 'interactive-required'
+  }
+}
+
+/** 发起一次静默授权跳转（`prompt=none`）。调用方应只在**确认本机值得一试**时调用，
+ *  否则每个首次访客都要白跳两趟。 */
+export async function beginSilentLogin(): Promise<void> {
+  await auth().beginSilentLogin()
+}
+
+// ── 跨站登录提示键 ────────────────────────────────────────────────────────
+// 实现在共享壳里（`sso-hint.ts`）：localStorage 按源隔离，记不到「你在柏讯登过」，
+// 所以用注册域 cookie；语义只有「本浏览器在这个租户登录过」，不含身份信息。
+
+export const SSO_HINT_DOMAIN = '.finddatatech.cloud'
+
+export const ssoHintSeen = (): boolean => seen(SSO_HINT_DOMAIN)
+export const ssoHintMark = (): void => mark(SSO_HINT_DOMAIN)
+
 /** 处理回跳：成功返回 true，并把 token 同步到 client 的读取键。 */
 export async function handleCallback(): Promise<boolean> {
   try {
@@ -86,4 +124,9 @@ export async function ensureFreshToken(): Promise<string | null> {
 export function logout(): void {
   auth().logoutLocal()
   setToken('')
+}
+
+/** 共享壳实例（供 App 的静默 SSO 挂载点使用；惰性求值，不提前读 window）。 */
+export function authShell() {
+  return auth()
 }

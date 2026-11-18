@@ -1,5 +1,5 @@
 export default {
-  nav: { login: "Sign in", logout: "Sign out", home: "Home", workbench: "Workbench", admin: "Admin", token: "Access token" },
+  nav: { login: "Sign in", logout: "Sign out", home: "Home", workbench: "Workbench", admin: "Admin", sessionCheckFailed: "Could not check your session.", retry: "Retry" },
   landing: {
     hero: {
       statement1: "Serious writing begins",
@@ -53,7 +53,7 @@ export default {
     unavailable: "This capability is still being wired — try again later",
     error: "Something went wrong",
     retry: "Retry",
-    tokenHint: "Sign in or set your access token in the top-right corner first (dev mode)",
+    tokenHint: "Sign in to use this",
     project: {
       label: "Current project",
       none: "No project selected",
