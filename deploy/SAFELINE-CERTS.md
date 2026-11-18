@@ -6,8 +6,8 @@
 
 | 线 | 域名 | 回源 | 说明 |
 |---|---|---|---|
-| 实论 | `shilun.finddatatech.cloud` | `http://100.64.0.8:31902`（fd-shilun-web，任一 cheap 节点可回源：100.64.0.8/.9/.13/.14/.15） | API 经 web 的 `/api/` 反代，无需单独暴露 |
-| 剧创 | `juchuang.finddatatech.cloud` | `http://100.64.0.8:31903`（fd-juchuang-web，同上） | 同上；其哲思契约走集群内直连（fd-zhesi-api ClusterIP），不经公网 |
+| 实论 | `shilun.finddatatech.cloud` | `http://10.0.0.10:31902`（fd-shilun-web，任一 cheap 节点可回源：10.0.0.10/.9/.13/.14/.15） | API 经 web 的 `/api/` 反代，无需单独暴露 |
+| 剧创 | `juchuang.finddatatech.cloud` | `http://10.0.0.10:31903`（fd-juchuang-web，同上） | 同上；其哲思契约走集群内直连（fd-zhesi-api ClusterIP），不经公网 |
 
 证书：泛域名 `*.finddatatech.cloud` 复用即可；HTTP→HTTPS 跳转。
 

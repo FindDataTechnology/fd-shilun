@@ -7,7 +7,7 @@
     # 取 DSN（只读 env）：
     kubectl --context cheap -n fd-prod exec deploy/fd-text-core -- \\
         env | grep -i fdtext_database_url
-    # 直连导出（100.64.0.10 为集群内 PG，网内可达，实测直连成功）：
+    # 直连导出（10.0.0.12 为集群内 PG，网内可达，实测直连成功）：
     FDTEXT_DATABASE_URL='postgresql://...' python3 scripts/extract_gov_corpus.py
 
 字段口径参照归档报告
