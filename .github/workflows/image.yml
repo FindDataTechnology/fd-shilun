@@ -30,7 +30,10 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/checkout@v4
         with:
-          repository: scs001/fd-open-data-protocol-images
+          # 2026-11-20 修正：原指向 scs001/fd-open-data-protocol-images，该仓已不存在
+          # （GitHub 404），导致 api-test job 的 checkout 直接失败、整条出片链断。
+          # 改用同协议包的公开源仓（pip install -e 需要的就是它）。
+          repository: FindDataTechnology/fd-open-data-protocol
           path: fd-open-data-protocol
 
       - uses: actions/setup-python@v5
