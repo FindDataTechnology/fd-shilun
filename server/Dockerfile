@@ -15,7 +15,7 @@ COPY fd_shilun_api ./fd_shilun_api
 COPY data ./data
 
 RUN if [ -n "$PIP_INDEX_URL" ]; then pip install --no-cache-dir -i "$PIP_INDEX_URL" .; else pip install --no-cache-dir .; fi \
- && pip install --no-cache-dir https://github.com/scs001/fd-open-data-protocol-images/archive/refs/heads/main.tar.gz \
+ && pip install --no-cache-dir https://github.com/FindDataTechnology/fd-open-data-protocol/archive/refs/heads/main.tar.gz \
  && useradd -m -u 1000 appuser
 
 USER appuser
