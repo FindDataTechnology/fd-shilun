@@ -1,27 +1,14 @@
-# Container image publish — GitHub Actions -> Tencent TCR personal edition.
-# fd-shilun 单仓双镜像：web / api。Standard channel（scs001 公开快照线）。
+# 共享实现见 FindDataTechnology/fd-ci（openspec: extract-shared-ci-workflow）。
 #
-# 2026-11-09 按 image-quota-allocation R2 停用私有仓自动出片：出片由公开镜像仓
-# scs001/fd-shilun-images 承担（免费；已核对与本源仓 0 文件差异）。本仓 CI 因组织
-# 私有额度耗尽而全部瞬时失败，无产出。保留手动入口以便回滚。
+# 本仓与其他仓不同：出镜像前必须先跑一遍测试（凭据与协议契约是核心不变量，
+# 测试不过不应出片）。测试留在本仓，是它自己的 job；两个 build job 用 needs 串在
+# 它后面 —— 共享 workflow 因此不需要为「构建前要跑测试」开一个输入。
 name: image
 
-# 2026-11-09 按 image-quota-allocation R2 停用私有仓自动出片：
-# 出片由公开镜像仓 scs001/fd-shilun-images 承担（免费；已核对与本源仓 0 文件差异）。
-# 本仓 CI 因组织私有额度耗尽而全部瞬时失败，无产出。保留手动入口以便回滚。
 on:
+  push:
+    branches: [main]
   workflow_dispatch:
-
-concurrency:
-  group: image-${{ github.ref }}
-  cancel-in-progress: true
-
-permissions:
-  contents: read
-
-env:
-  REGISTRY: hkccr.ccs.tencentyun.com
-  NAMESPACE: finddata-business
 
 jobs:
   api-test:
@@ -54,154 +41,20 @@ jobs:
 
   web:
     needs: api-test
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: docker/setup-buildx-action@v3
-
-      - uses: docker/login-action@v3
-        with:
-          registry: ${{ env.REGISTRY }}
-          username: ${{ secrets.TCR_USERNAME }}
-          password: ${{ secrets.TCR_PASSWORD }}
-
-      - id: prev
-        name: 读 main 当前 digest（内容基线）
-        run: |
-          img="$REGISTRY/$NAMESPACE/fd-shilun-web"
-          cur=$(docker buildx imagetools inspect "$img:main" \
-                --format '{{.Manifest.Digest}}' 2>/dev/null || true)
-          echo "digest=$cur" >> "$GITHUB_OUTPUT"
-          echo "fd-shilun-web main 当前 digest: ${cur:-<不存在，本次为首次构建>}"
-
-      - id: meta
-        uses: docker/metadata-action@v5
-        with:
-          images: ${{ env.REGISTRY }}/${{ env.NAMESPACE }}/fd-shilun-web
-          tags: |
-            type=raw,value=main
-
-      - id: build
-        uses: docker/build-push-action@v6
-        with:
-          context: web
-          file: web/Dockerfile
-          platforms: linux/amd64
-          push: true
-          # 硬约束：开了 attestation，同内容两次构建 digest 必然不同，闸门永久失效。
-          provenance: false
-          tags: ${{ steps.meta.outputs.tags }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
-
-      # 内容闸门：digest 变了才铸 sha-<commit>，让「同内容多 tag」结构上不可能。
-      - name: 内容变了才铸不可变 tag
-        env:
-          NEW: ${{ steps.build.outputs.digest }}
-          OLD: ${{ steps.prev.outputs.digest }}
-        run: |
-          set -euo pipefail
-          img="$REGISTRY/$NAMESPACE/fd-shilun-web"
-          [ -n "$NEW" ] || { echo "::error::构建未产出 digest"; exit 1; }
-          if [ "$NEW" = "$OLD" ]; then
-            echo "内容未变（$NEW）：不铸新 tag"
-            {
-              echo "### 内容未变，未产出新 tag"
-              echo ""
-              echo "本次构建与 \`main\` 当前指向完全一致。"
-              echo ""
-              echo "- 可直接 pin：\`$img@$NEW\`"
-              echo "- 滚动引用：\`$img:main\`"
-            } >> "$GITHUB_STEP_SUMMARY"
-            exit 0
-          fi
-          tag="sha-${GITHUB_SHA::7}"
-          docker buildx imagetools create -t "$img:$tag" "$img@$NEW"
-          echo "已铸 $tag → $NEW"
-          {
-            echo "### 内容有变化，已铸不可变 tag"
-            echo ""
-            echo "| 字段 | 值 |"
-            echo "|---|---|"
-            echo "| tag | \`$tag\` |"
-            echo "| digest | \`$NEW\` |"
-            echo "| 上一内容 digest | \`${OLD:-<无>}\` |"
-          } >> "$GITHUB_STEP_SUMMARY"
+    uses: FindDataTechnology/fd-ci/.github/workflows/image-build.yml@main
+    secrets: inherit
+    with:
+      image: fd-shilun-web
+      namespace: finddata-business
+      context: web
+      dockerfile: web/Dockerfile
 
   api:
     needs: api-test
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: docker/setup-buildx-action@v3
-
-      - uses: docker/login-action@v3
-        with:
-          registry: ${{ env.REGISTRY }}
-          username: ${{ secrets.TCR_USERNAME }}
-          password: ${{ secrets.TCR_PASSWORD }}
-
-      - id: prev
-        name: 读 main 当前 digest（内容基线）
-        run: |
-          img="$REGISTRY/$NAMESPACE/fd-shilun-api"
-          cur=$(docker buildx imagetools inspect "$img:main" \
-                --format '{{.Manifest.Digest}}' 2>/dev/null || true)
-          echo "digest=$cur" >> "$GITHUB_OUTPUT"
-          echo "fd-shilun-api main 当前 digest: ${cur:-<不存在，本次为首次构建>}"
-
-      - id: meta
-        uses: docker/metadata-action@v5
-        with:
-          images: ${{ env.REGISTRY }}/${{ env.NAMESPACE }}/fd-shilun-api
-          tags: |
-            type=raw,value=main
-
-      - id: build
-        uses: docker/build-push-action@v6
-        with:
-          context: server
-          file: server/Dockerfile
-          platforms: linux/amd64
-          push: true
-          # 硬约束：开了 attestation，同内容两次构建 digest 必然不同，闸门永久失效。
-          provenance: false
-          tags: ${{ steps.meta.outputs.tags }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
-
-      # 内容闸门：digest 变了才铸 sha-<commit>，让「同内容多 tag」结构上不可能。
-      - name: 内容变了才铸不可变 tag
-        env:
-          NEW: ${{ steps.build.outputs.digest }}
-          OLD: ${{ steps.prev.outputs.digest }}
-        run: |
-          set -euo pipefail
-          img="$REGISTRY/$NAMESPACE/fd-shilun-api"
-          [ -n "$NEW" ] || { echo "::error::构建未产出 digest"; exit 1; }
-          if [ "$NEW" = "$OLD" ]; then
-            echo "内容未变（$NEW）：不铸新 tag"
-            {
-              echo "### 内容未变，未产出新 tag"
-              echo ""
-              echo "本次构建与 \`main\` 当前指向完全一致。"
-              echo ""
-              echo "- 可直接 pin：\`$img@$NEW\`"
-              echo "- 滚动引用：\`$img:main\`"
-            } >> "$GITHUB_STEP_SUMMARY"
-            exit 0
-          fi
-          tag="sha-${GITHUB_SHA::7}"
-          docker buildx imagetools create -t "$img:$tag" "$img@$NEW"
-          echo "已铸 $tag → $NEW"
-          {
-            echo "### 内容有变化，已铸不可变 tag"
-            echo ""
-            echo "| 字段 | 值 |"
-            echo "|---|---|"
-            echo "| tag | \`$tag\` |"
-            echo "| digest | \`$NEW\` |"
-            echo "| 上一内容 digest | \`${OLD:-<无>}\` |"
-          } >> "$GITHUB_STEP_SUMMARY"
+    uses: FindDataTechnology/fd-ci/.github/workflows/image-build.yml@main
+    secrets: inherit
+    with:
+      image: fd-shilun-api
+      namespace: finddata-business
+      context: server
+      dockerfile: server/Dockerfile
