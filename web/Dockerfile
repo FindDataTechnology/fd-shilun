@@ -5,6 +5,11 @@
 FROM node:22-slim AS build
 
 ARG NPM_REGISTRY=""
+# 缓存失效锚（2026-11-20）：buildkit 的 GHA cache 在本仓曾把 `COPY . .` 与
+# `RUN npm run build` 判成 CACHED（源码明明变了），产出与上一版逐字节相同的
+# 镜像，而「内容变了才铸 tag」因此永远判「未变」、不可变 tag 一直不产出。
+# 改这个值 = 让后续所有层重新执行一次；平时不必动它。
+ARG BUILD_CACHE_BUST="2026-11-20-site-furniture"
 
 WORKDIR /app
 
@@ -12,7 +17,10 @@ COPY package.json package-lock.json ./
 RUN if [ -n "$NPM_REGISTRY" ]; then npm ci --no-audit --no-fund --registry="$NPM_REGISTRY"; else npm ci --no-audit --no-fund; fi
 
 COPY . .
-RUN npm run build
+
+# 缓存锚必须落在 COPY . . 之后：放在它之前只会让那一层失效，COPY 与 npm run build
+# 仍然命中旧缓存（这正是 2026-11-20 那次「源码变了、镜像没变」的成因）。
+RUN echo "cache-bust: ${BUILD_CACHE_BUST}" && npm run build
 
 FROM nginx:alpine
 
